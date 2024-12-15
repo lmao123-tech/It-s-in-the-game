@@ -91,8 +91,8 @@ public class BasicGame implements GameLoop {
                 SaxionApp.drawImage(Variables.PATH_CS + "frame_p2.png", xBoxPlayer2, yBoxPlayer2);
                 SaxionApp.drawImage(Variables.PATH_CS + "cs_topbar.png", 0, 0, 1600, 128);
                 SaxionApp.drawImage(Variables.PATH_CS + "label_charselect.png", 544, 20);
-                SaxionApp.drawImage(Variables.PATH + "fire/idle0.gif", Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
-                SaxionApp.drawImage(Variables.PATH + "fire/idle0.gif", Variables.CS_P2X - 350, Variables.CS_P2Y - 186);
+                SaxionApp.drawImage(Variables.PATH + "fire/idle0r.gif", Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
+                SaxionApp.drawImage(Variables.PATH + "fire/idle0l.gif", Variables.CS_P2X - 350, Variables.CS_P2Y - 186);
                 SaxionApp.drawImage(Variables.PATH_CS + "label_p1.png", Variables.CS_P1X - 40, Variables.CS_P1Y - 120);
                 SaxionApp.drawImage(Variables.PATH_CS + "label_p2.png", Variables.CS_P2X - 40, Variables.CS_P2Y - 120);
                 SaxionApp.drawImage(Variables.PATH_CS + "cs_statbg.png", Variables.CS_P1X - 89, Variables.CS_P1Y + 280);
