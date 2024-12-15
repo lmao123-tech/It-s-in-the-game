@@ -176,31 +176,31 @@ public class BasicGame implements GameLoop {
     public void keyboardEvent(KeyboardEvent keyboardEvent) {
         switch (state) {
             case INTRO_OVER:
-                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ENTER && isIntroComplete){
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ENTER && isIntroComplete) {
                     state = gameState.CHARACTER_SELECT;
                 }
                 break;
             case CHARACTER_SELECT:
                 // Player 1 box movement
-                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && keyboardEvent.isKeyPressed()){
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && keyboardEvent.isKeyPressed()) {
                     xBoxPlayer1 += 150;
-                    if (xBoxPlayer1 > 750){
+                    if (xBoxPlayer1 > 775) {
                         xBoxPlayer1 = 625;
                     }
-                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && keyboardEvent.isKeyPressed()){
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && keyboardEvent.isKeyPressed()) {
                     xBoxPlayer1 -= 150;
-                    if (xBoxPlayer1 < 600){
+                    if (xBoxPlayer1 < 600) {
                         xBoxPlayer1 = 775;
                     }
-                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()){
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
                     yBoxPlayer1 -= 150;
-                    if (yBoxPlayer1 < 350){
-                        yBoxPlayer1 = 450;
+                    if (yBoxPlayer1 < 340) {
+                        yBoxPlayer1 = 490;
                     }
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && keyboardEvent.isKeyPressed()) {
                     yBoxPlayer1 += 150;
-                    if (yBoxPlayer1 > 500){
-                        yBoxPlayer1 = 350;
+                    if (yBoxPlayer1 > 490) {
+                        yBoxPlayer1 = 340;
                     }
                 }
 
@@ -208,23 +208,24 @@ public class BasicGame implements GameLoop {
                 // Player 2 box movement
                 if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && keyboardEvent.isKeyPressed()) {
                     xBoxPlayer2 += 150;
-                    if (xBoxPlayer2 > 750){
-                        xBoxPlayer2 = 775;
+                    if (xBoxPlayer2 > 775) {
+                        xBoxPlayer2 = 625;
                     }
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT && keyboardEvent.isKeyPressed()) {
                     xBoxPlayer2 -= 150;
-                    if (xBoxPlayer2 < 600){
-                        xBoxPlayer2 = 775;
+                    if (xBoxPlayer2 < 600) {
+                        xBoxPlayer2 = 775
+                        ;
                     }
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
                     yBoxPlayer2 -= 150;
-                    if (yBoxPlayer2 < 350){
-                        yBoxPlayer2 = 500;
+                    if (yBoxPlayer2 < 340) {
+                        yBoxPlayer2 = 490;
                     }
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && keyboardEvent.isKeyPressed()) {
                     yBoxPlayer2 += 150;
-                    if (yBoxPlayer2 > 500){
-                        yBoxPlayer2 = 350;
+                    if (yBoxPlayer2 > 490) {
+                        yBoxPlayer2 = 340;
                     }
                 }
         }
