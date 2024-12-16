@@ -105,8 +105,8 @@ public class GameManager {
         water.initFighter();
         lightning.initFighter();
 
-        random.idleR.add("resources/charselect/randomcharacterr.png");
-        random.idleL.add("resources/charselect/randomcharacterl.png");
+        random.idleR.add(Variables.PATH_CS + "randomcharacterr.png");
+        random.idleL.add(Variables.PATH_CS + "randomcharacterl.png");
 
         fighters[0] = fire;
         fighters[1] = water;
