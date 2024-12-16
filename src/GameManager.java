@@ -146,16 +146,16 @@ public class GameManager {
 
         SaxionApp.drawImage(Variables.PATH_CS + "label_hp.png", Variables.CS_P1X - 70, Variables.CS_P1Y + 300);
         SaxionApp.drawImage(Variables.PATH_CS + "label_hp.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 300);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_sp.png", Variables.CS_P1X + 110, Variables.CS_P1Y + 300);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_sp.png", Variables.CS_P2X + 110, Variables.CS_P2Y + 300);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_sp.png", Variables.CS_P1X + 95, Variables.CS_P1Y + 300);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_sp.png", Variables.CS_P2X + 95, Variables.CS_P2Y + 300);
         SaxionApp.drawImage(Variables.PATH_CS + "label_atk.png", Variables.CS_P1X - 70, Variables.CS_P1Y + 330);
         SaxionApp.drawImage(Variables.PATH_CS + "label_atk.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 330);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_satk.png", Variables.CS_P1X + 110, Variables.CS_P1Y + 330);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_satk.png", Variables.CS_P2X + 110, Variables.CS_P2Y + 330);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_satk.png", Variables.CS_P1X + 95, Variables.CS_P1Y + 330);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_satk.png", Variables.CS_P2X + 95, Variables.CS_P2Y + 330);
         SaxionApp.drawImage(Variables.PATH_CS + "label_def.png", Variables.CS_P1X - 70, Variables.CS_P1Y + 360);
         SaxionApp.drawImage(Variables.PATH_CS + "label_def.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 360);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_sdef.png", Variables.CS_P1X + 110, Variables.CS_P1Y + 360);
-        SaxionApp.drawImage(Variables.PATH_CS + "label_sdef.png", Variables.CS_P2X + 110, Variables.CS_P2Y + 360);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_sdef.png", Variables.CS_P1X + 95, Variables.CS_P1Y + 360);
+        SaxionApp.drawImage(Variables.PATH_CS + "label_sdef.png", Variables.CS_P2X + 95, Variables.CS_P2Y + 360);
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P1X - 70, Variables.CS_P1Y + 390);
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 390);
     }
