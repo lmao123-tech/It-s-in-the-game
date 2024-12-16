@@ -42,6 +42,11 @@ public class Player {
     public ArrayList<String> ultimate = new ArrayList<>();
     public int ultimateIndex = 0;
 
+
+
+
+
+
     public void updatePlayer(Fighter fighter) {
         this.pic = fighter.pic;
         this.map = fighter.map;
@@ -89,16 +94,12 @@ public class Player {
         this.spd = fighter.spd;
     }
 
-    public void playAnimation(ArrayList<String> animation, String soundEffect) {
+    public void playAnimation(ArrayList<String> animation) {
 
         // Sound effects here
 //        MediaPlayer player = new MediaPlayer(soundEffect,false);
 //        player.play();
 
-        for (String frame : animation) {
-            SaxionApp.drawImage(frame, 0, 240);
-            SaxionApp.sleep(0.001);
-        }
     }
 
     public void resetIndexes() {
@@ -113,16 +114,24 @@ public class Player {
         this.ultimateIndex = 0;
     }
 
-    public void playLoopingAnimation(ArrayList<String> animation) {
+    public void playLoopingAnimation(ArrayList<String> animation, BasicGame.gameState state) {
         if (idleIndex > animation.size()) {
             idleIndex = 0;
         }
 
-        if (this.name.equalsIgnoreCase("player 1")) {
+        if (this.name.equalsIgnoreCase("player 1") && state == BasicGame.gameState.CHARACTER_SELECT) {
             SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
-        } else {
+        } else if (this.name.equalsIgnoreCase("player 2") && state == BasicGame.gameState.CHARACTER_SELECT) {
             SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
         }
+
+        if (this.name.equalsIgnoreCase("player 1") && state == BasicGame.gameState.BATTLE) {
+            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P1X - 380, Variables.CS_P1Y - 36);
+        } else if (this.name.equalsIgnoreCase("player 2") && state == BasicGame.gameState.BATTLE) {
+            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P2X - 368, Variables.CS_P2Y - 36);
+        }
+
+
 
         SaxionApp.sleep(0.02);
         idleIndex++;
