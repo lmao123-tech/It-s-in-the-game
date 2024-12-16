@@ -114,6 +114,15 @@ public class GameManager {
         mapWater.createBackgroundArray("water", 3, 8);
     }
 
+    public void initPlayers() {
+        player1.name = "player 1";
+        player2.name = "player 2";
+    }
+
+    public void updatePlayer(Player player) {
+
+    }
+
     public void drawCharSelectScreen() {
         SaxionApp.drawImage(Variables.PATH_CS + "char_select.jpg", 0, 0, 1600, 672);
         SaxionApp.drawImage(Variables.PATH_CS + "frame_red.png", Variables.CS_P1X, Variables.CS_P1Y);
@@ -162,23 +171,29 @@ public class GameManager {
     }
 
     public void displayStat(int stat, int x, int y) {
-        int hundreds;
-        int tens;
-        int ones;
-        int temp = stat;
+        if (stat > 0) {
+            int hundreds;
+            int tens;
+            int ones;
+            int temp = stat;
 
-        ones = temp % 10;
-        temp = temp / 10;
+            ones = temp % 10;
+            temp = temp / 10;
 
-        tens = temp % 10;
-        temp = temp / 10;
+            tens = temp % 10;
+            temp = temp / 10;
 
-        hundreds = temp % 10;
+            hundreds = temp % 10;
 
-        if (hundreds != 0) {
-            SaxionApp.drawImage(Variables.PATH_CS + hundreds + ".png", x, y);
+            if (hundreds != 0) {
+                SaxionApp.drawImage(Variables.PATH_CS + hundreds + ".png", x, y);
+            }
+            SaxionApp.drawImage(Variables.PATH_CS + tens + ".png", x + 18, y);
+            SaxionApp.drawImage(Variables.PATH_CS + ones + ".png", x + 36, y);
+        } else {
+            SaxionApp.drawImage("unknown.png", x, y);
+            SaxionApp.drawImage("unknown.png", x + 18, y);
+            SaxionApp.drawImage("unknown.png", x + 36, y);
         }
-        SaxionApp.drawImage(Variables.PATH_CS + tens + ".png", x + 18, y);
-        SaxionApp.drawImage(Variables.PATH_CS + ones + ".png", x + 36, y);
     }
 }
