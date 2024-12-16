@@ -1,5 +1,4 @@
 import nl.saxion.app.CsvReader;
-import nl.saxion.app.SaxionApp;
 
 import java.util.ArrayList;
 
@@ -19,39 +18,30 @@ public class Fighter {
 
     public ArrayList<String> attackR = new ArrayList<>();
     public ArrayList<String> attackL = new ArrayList<>();
-    public int attackIndex = 0;
 
     public ArrayList<String> deadR = new ArrayList<>();
     public ArrayList<String> deadL = new ArrayList<>();
-    public int deadIndex = 0;
 
     public ArrayList<String> defendR = new ArrayList<>();
     public ArrayList<String> defendL = new ArrayList<>();
-    public int defendIndex;
 
     public ArrayList<String> hitR = new ArrayList<>();
     public ArrayList<String> hitL = new ArrayList<>();
-    public int hitIndex = 0;
 
     public ArrayList<String> idleR = new ArrayList<>();
     public ArrayList<String> idleL = new ArrayList<>();
-    public int idleIndex = 0;
 
     public ArrayList<String> runR = new ArrayList<>();
     public ArrayList<String> runL = new ArrayList<>();
-    public int runIndex;
 
     public ArrayList<String> sattackR = new ArrayList<>();
     public ArrayList<String> sattackL = new ArrayList<>();
-    public int sattackIndex = 0;
 
     public ArrayList<String> specialR = new ArrayList<>();
     public ArrayList<String> specialL = new ArrayList<>();
-    public int specialIndex = 0;
 
     public ArrayList<String> ultimateR = new ArrayList<>();
     public ArrayList<String> ultimateL = new ArrayList<>();
-    public int ultimateIndex = 0;
 
     public void initFighter() {
         // Sets path of images for the fighter
@@ -124,19 +114,6 @@ public class Fighter {
                 this.sdef = stats.getInt(6);
                 this.spd = stats.getInt(7);
             }
-        }
-
-    }
-
-    public void playAnimation(ArrayList<String> animation, String soundEffect) {
-
-        // Sound effects here
-//        MediaPlayer player = new MediaPlayer(soundEffect,false);
-//        player.play();
-
-        for (String frame : animation) {
-            SaxionApp.drawImage(frame, 0, 240);
-            SaxionApp.sleep(0.001);
         }
 
     }
