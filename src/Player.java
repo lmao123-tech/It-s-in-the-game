@@ -53,16 +53,6 @@ public class Player {
         } else {
             importAllAnimationsL(fighter);
         }
-
-        attackIndex = this.attack.size();
-        deadIndex = this.dead.size();
-        defendIndex = this.defend.size();
-        hitIndex = this.hit.size();
-        idleIndex = this.idle.size();
-        runIndex = this.run.size();
-        sattackIndex = this.sattack.size();
-        specialIndex = this.special.size();
-        ultimateIndex = this.ultimate.size();
     }
 
     public void importAllAnimationsR(Fighter fighter) {
@@ -108,6 +98,37 @@ public class Player {
         for (String frame : animation) {
             SaxionApp.drawImage(frame, 0, 240);
             SaxionApp.sleep(0.001);
+        }
+    }
+
+    public void resetIndexes() {
+        this.attackIndex = 0;
+        this.defendIndex = 0;
+        this.deadIndex = 0;
+        this.hitIndex = 0;
+        this.idleIndex = 0;
+        this.runIndex = 0;
+        this.sattackIndex = 0;
+        this.specialIndex = 0;
+        this.ultimateIndex = 0;
+    }
+
+    public void playLoopingAnimation(ArrayList<String> animation) {
+        if (idleIndex > animation.size()) {
+            idleIndex = 0;
+        }
+
+        if (this.name.equalsIgnoreCase("player 1")) {
+            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
+        } else {
+            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
+        }
+
+        SaxionApp.sleep(0.02);
+        idleIndex++;
+
+        if (idleIndex >= animation.size()) {
+            idleIndex = 0;
         }
     }
 }

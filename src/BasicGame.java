@@ -10,7 +10,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.INTRO;
+    gameState state = gameState.CHARACTER_SELECT;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -73,12 +73,18 @@ public class BasicGame implements GameLoop {
                 displayTitle();
                 GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
-
                 break;
             case CHARACTER_SELECT:
+                // DELETE NEXT 2 LINES BEFORE SHIPPING
+                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
+                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
+
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
+                GameManager.player1.playLoopingAnimation(GameManager.player1.idle);
+                GameManager.player2.playLoopingAnimation(GameManager.player2.idle);
+
 
                 break;
             case BATTLE:
@@ -151,6 +157,7 @@ public class BasicGame implements GameLoop {
                         Variables.p1choice -= 2;
                         Variables.csCursorP1X = 625;
                     }
+                    GameManager.player1.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p1choice -= 1;
@@ -159,6 +166,7 @@ public class BasicGame implements GameLoop {
                         Variables.p1choice += 2;
                         Variables.csCursorP1X = 775;
                     }
+                    GameManager.player1.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p1choice -= 2;
@@ -167,6 +175,7 @@ public class BasicGame implements GameLoop {
                         Variables.p1choice += 4;
                         Variables.csCursorP1Y = 490;
                     }
+                    GameManager.player1.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p1choice += 2;
@@ -175,6 +184,7 @@ public class BasicGame implements GameLoop {
                         Variables.p1choice -= 4;
                         Variables.csCursorP1Y = 340;
                     }
+                    GameManager.player1.resetIndexes();
                 }
 
                 // Player 2 controls
@@ -186,6 +196,7 @@ public class BasicGame implements GameLoop {
                         Variables.p2choice -= 2;
                         Variables.csCursorP2X = 625;
                     }
+                    GameManager.player2.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p2choice -= 1;
@@ -194,6 +205,7 @@ public class BasicGame implements GameLoop {
                         Variables.p2choice += 2;
                         Variables.csCursorP2X = 775;
                     }
+                    GameManager.player2.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p2choice -= 2;
@@ -202,6 +214,7 @@ public class BasicGame implements GameLoop {
                         Variables.p2choice += 4;
                         Variables.csCursorP2Y = 490;
                     }
+                    GameManager.player2.resetIndexes();
                 } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && keyboardEvent.isKeyPressed()) {
                     GameManager.playSound(Variables.PATH + "cursor.wav");
                     Variables.p2choice += 2;
@@ -210,9 +223,11 @@ public class BasicGame implements GameLoop {
                         Variables.p2choice -= 4;
                         Variables.csCursorP2Y = 340;
                     }
+                    GameManager.player2.resetIndexes();
                 }
                 GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
+
                 break;
         }
     }
