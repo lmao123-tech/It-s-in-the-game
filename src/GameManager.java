@@ -14,6 +14,7 @@ public class GameManager {
     Fighter fire = new Fighter();
     Fighter water = new Fighter();
     Fighter lightning = new Fighter();
+    Fighter random = new Fighter();
 
     // Creates players
     Player player1 = new Player();
@@ -21,7 +22,7 @@ public class GameManager {
 
     // Creates an array of fighters that players select from on the Character Select screen
     ArrayList<Fighter> fighterChoices = new ArrayList();
-    Fighter[] fighters = new Fighter[3];
+    Fighter[] fighters = new Fighter[4];
 
     // Creates the music player
     MediaPlayer musicPlayer = new MediaPlayer("intro.mp3", true);
@@ -94,6 +95,7 @@ public class GameManager {
         fire.name = "Fire";
         water.name = "Water";
         lightning.name = "Lightning";
+        random.name = "Random";
 
         fire.setMap(mapFire);
         water.setMap(mapWater);
@@ -106,6 +108,7 @@ public class GameManager {
         fighters[0] = fire;
         fighters[1] = water;
         fighters[2] = lightning;
+        fighters[3] = random;
     }
 
     public void initMaps() {
@@ -119,8 +122,8 @@ public class GameManager {
         player2.name = "player 2";
     }
 
-    public void updatePlayer(Player player) {
-
+    public void updatePlayer(Player player, Fighter fighter) {
+        player.updatePlayer(fighter);
     }
 
     public void drawCharSelectScreen() {
@@ -160,14 +163,25 @@ public class GameManager {
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 390);
     }
 
-    public void displayAllStats(Fighter fighter) {
-        displayStat(fighter.hp, Variables.CS_P1X, Variables.CS_P1Y + 300);
-        displayStat(fighter.sp, Variables.CS_P1X + 180, Variables.CS_P1Y + 300);
-        displayStat(fighter.atk, Variables.CS_P1X, Variables.CS_P1Y + 330);
-        displayStat(fighter.satk, Variables.CS_P1X + 180, Variables.CS_P1Y + 330);
-        displayStat(fighter.def, Variables.CS_P1X, Variables.CS_P1Y + 360);
-        displayStat(fighter.sdef, Variables.CS_P1X + 180, Variables.CS_P1Y + 360);
-        displayStat(fighter.spd, Variables.CS_P1X, Variables.CS_P1Y + 390);
+    public void displayAllStats(Player player) {
+        if (player.name.equalsIgnoreCase("player 1")) {
+            displayStat(player.hp, Variables.CS_P1X, Variables.CS_P1Y + 300);
+            displayStat(player.sp, Variables.CS_P1X + 180, Variables.CS_P1Y + 300);
+            displayStat(player.atk, Variables.CS_P1X, Variables.CS_P1Y + 330);
+            displayStat(player.satk, Variables.CS_P1X + 180, Variables.CS_P1Y + 330);
+            displayStat(player.def, Variables.CS_P1X, Variables.CS_P1Y + 360);
+            displayStat(player.sdef, Variables.CS_P1X + 180, Variables.CS_P1Y + 360);
+            displayStat(player.spd, Variables.CS_P1X, Variables.CS_P1Y + 390);
+        } else {
+            displayStat(player.hp, Variables.CS_P2X, Variables.CS_P2Y + 300);
+            displayStat(player.sp, Variables.CS_P2X + 180, Variables.CS_P2Y + 300);
+            displayStat(player.atk, Variables.CS_P2X, Variables.CS_P2Y + 330);
+            displayStat(player.satk, Variables.CS_P2X + 180, Variables.CS_P2Y + 330);
+            displayStat(player.def, Variables.CS_P2X, Variables.CS_P2Y + 360);
+            displayStat(player.sdef, Variables.CS_P2X + 180, Variables.CS_P2Y + 360);
+            displayStat(player.spd, Variables.CS_P2X, Variables.CS_P2Y + 390);
+        }
+
     }
 
     public void displayStat(int stat, int x, int y) {

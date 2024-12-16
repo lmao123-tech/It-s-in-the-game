@@ -42,7 +42,7 @@ public class Player {
     public ArrayList<String> ultimate = new ArrayList<>();
     public int ultimateIndex = 0;
 
-    public void initPlayer(Fighter fighter, String name) {
+    public void updatePlayer(Fighter fighter) {
         this.pic = fighter.pic;
         this.map = fighter.map;
 
