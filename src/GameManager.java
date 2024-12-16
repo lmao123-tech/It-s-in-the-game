@@ -144,6 +144,16 @@ public class GameManager {
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 390);
     }
 
+    public void displayAllStats(Fighter fighter) {
+        displayStat(fighter.hp, Variables.CS_P1X, Variables.CS_P1Y + 300);
+        displayStat(fighter.sp, Variables.CS_P1X + 180, Variables.CS_P1Y + 300);
+        displayStat(fighter.atk, Variables.CS_P1X, Variables.CS_P1Y + 330);
+        displayStat(fighter.satk, Variables.CS_P1X + 180, Variables.CS_P1Y + 330);
+        displayStat(fighter.def, Variables.CS_P1X, Variables.CS_P1Y + 360);
+        displayStat(fighter.sdef, Variables.CS_P1X + 180, Variables.CS_P1Y + 360);
+        displayStat(fighter.spd, Variables.CS_P1X, Variables.CS_P1Y + 390);
+    }
+
     public void displayStat(int stat, int x, int y) {
         int hundreds;
         int tens;
