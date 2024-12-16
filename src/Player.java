@@ -14,7 +14,6 @@ public class Player {
     public String name;
     public String pic;
     public Map map;
-    public String imagePath;
 
     public ArrayList<String> attack = new ArrayList<>();
     public int attackIndex = 0;
@@ -44,8 +43,8 @@ public class Player {
     public int ultimateIndex = 0;
 
     public void initPlayer(Fighter fighter, String name) {
-        this.imagePath = fighter.imagePath;
         this.pic = fighter.pic;
+        this.map = fighter.map;
 
         importStats(fighter);
 

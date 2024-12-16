@@ -15,6 +15,10 @@ public class GameManager {
     Fighter water = new Fighter();
     Fighter lightning = new Fighter();
 
+    // Creates players
+    Player player1 = new Player();
+    Player player2 = new Player();
+
     // Creates an array of fighters that players select from on the Character Select screen
     ArrayList<Fighter> fighterChoices = new ArrayList();
     Fighter[] fighters = new Fighter[3];
@@ -26,7 +30,6 @@ public class GameManager {
     public GameManager() {
         //load fighter choices;
 
-
     }
 
     public void jukebox(BasicGame.gameState state) {
@@ -37,7 +40,6 @@ public class GameManager {
                         playSong("resources/m1.wav", true);
                         break;
                     case CHARACTER_SELECT:
-//                        playSong("menu.mp3", true);
                         break;
                 }
             }).start();
@@ -49,6 +51,11 @@ public class GameManager {
         musicPlayer.setFile(song);
         musicPlayer.setLoop(loop);
         musicPlayer.play();
+    }
+
+    public void playSound(String sound) {
+        MediaPlayer soundPlayer = new MediaPlayer(sound, false);
+        new Thread(soundPlayer::play).start();
     }
 
     public void chooseFighter(int player, Fighter fighter) {
