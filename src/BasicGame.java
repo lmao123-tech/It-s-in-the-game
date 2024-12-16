@@ -74,7 +74,8 @@ public class BasicGame implements GameLoop {
                 break;
             case CHARACTER_SELECT:
                 GameManager.drawCharSelectScreen();
-                GameManager.displayAllStats(GameManager.fire);
+                Fighter newguy = new Fighter();
+                GameManager.displayAllStats(newguy);
 
                 break;
             case BATTLE:

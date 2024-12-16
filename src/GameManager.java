@@ -191,9 +191,9 @@ public class GameManager {
             SaxionApp.drawImage(Variables.PATH_CS + tens + ".png", x + 18, y);
             SaxionApp.drawImage(Variables.PATH_CS + ones + ".png", x + 36, y);
         } else {
-            SaxionApp.drawImage("unknown.png", x, y);
-            SaxionApp.drawImage("unknown.png", x + 18, y);
-            SaxionApp.drawImage("unknown.png", x + 36, y);
+            SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x, y);
+            SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x + 18, y);
+            SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x + 36, y);
         }
     }
 }
