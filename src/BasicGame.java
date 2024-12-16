@@ -74,8 +74,7 @@ public class BasicGame implements GameLoop {
 
                 break;
             case CHARACTER_SELECT:
-                GameManager.drawCharacterSelectScreen();
-
+                GameManager.drawCharSelectScreen();
 
                 break;
             case BATTLE:

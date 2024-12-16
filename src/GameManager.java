@@ -107,7 +107,7 @@ public class GameManager {
         mapWater.createBackgroundArray("water", 3, 8);
     }
 
-    public void drawCharacterSelectScreen() {
+    public void drawCharSelectScreen() {
         SaxionApp.drawImage(Variables.PATH_CS + "char_select.jpg", 0, 0, 1600, 672);
         SaxionApp.drawImage(Variables.PATH_CS + "frame_red.png", Variables.CS_P1X, Variables.CS_P1Y);
         SaxionApp.drawImage(Variables.PATH_CS + "frame_blue.png", Variables.CS_P2X, Variables.CS_P2Y);
@@ -142,5 +142,26 @@ public class GameManager {
         SaxionApp.drawImage(Variables.PATH_CS + "label_sdef.png", Variables.CS_P2X + 110, Variables.CS_P2Y + 360);
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P1X - 70, Variables.CS_P1Y + 390);
         SaxionApp.drawImage(Variables.PATH_CS + "label_spd.png", Variables.CS_P2X - 70, Variables.CS_P2Y + 390);
+    }
+
+    public void displayStat(int stat, int x, int y) {
+        int hundreds;
+        int tens;
+        int ones;
+        int temp = stat;
+
+        ones = temp % 10;
+        temp = temp / 10;
+
+        tens = temp % 10;
+        temp = temp / 10;
+
+        hundreds = temp % 10;
+
+        if (hundreds != 0) {
+            SaxionApp.drawImage(Variables.PATH_CS + hundreds + ".png", x, y);
+        }
+        SaxionApp.drawImage(Variables.PATH_CS + tens + ".png", x + 18, y);
+        SaxionApp.drawImage(Variables.PATH_CS + ones + ".png", x + 36, y);
     }
 }
