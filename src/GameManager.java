@@ -211,4 +211,8 @@ public class GameManager {
             SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x + 36, y);
         }
     }
+
+    public void drawMaps(Map name) {
+        name.animateMap();
+    }
 }

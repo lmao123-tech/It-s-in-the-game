@@ -10,7 +10,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.CHARACTER_SELECT;
+    gameState state = gameState.BATTLE;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -29,6 +29,11 @@ public class BasicGame implements GameLoop {
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
+
+    //random map selector
+    Map[] maps = new Map[] {GameManager.mapFire, GameManager.mapLightning, GameManager.mapWater};
+    int randomMap = SaxionApp.getRandomValueBetween(0,3);
+
 
     public static void main(String[] args) {
         SaxionApp.startGameLoop(new BasicGame(), 1600, 672, 40);
@@ -88,7 +93,7 @@ public class BasicGame implements GameLoop {
 
                 break;
             case BATTLE:
-
+                GameManager.drawMaps(maps[randomMap]);
                 break;
         }
 
