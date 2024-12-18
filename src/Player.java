@@ -113,22 +113,14 @@ public class Player {
         this.ultimateIndex = 0;
     }
 
-    public void playLoopingAnimation(ArrayList<String> animation) {
+    public void loopAnimation(ArrayList<String> animation, int x, int y) {
         if (idleIndex > animation.size()) {
             idleIndex = 0;
         }
 
-        if (this.name.equalsIgnoreCase("player 1")) {
-            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
-        } else {
-            SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
-        }
-
+        SaxionApp.drawImage(animation.get(idleIndex), x, y);
         SaxionApp.sleep(0.02);
-        idleIndex++;
 
-        if (idleIndex >= animation.size()) {
-            idleIndex = 0;
-        }
+        idleIndex = (idleIndex + 1) % animation.size();
     }
 }
