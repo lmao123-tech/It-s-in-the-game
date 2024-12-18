@@ -10,12 +10,13 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.BATTLE;
+    gameState state = gameState.CHARACTER_SELECT;
 
     //Variables for intro text
     boolean isTitleShown = false;
     boolean isIntroComplete = false;
     long titleShownTime = 0;
+    boolean idle = false;
 
     // Creates intro background and character
     String[] introBackground = new String[64];
@@ -25,6 +26,7 @@ public class BasicGame implements GameLoop {
     // Current animation array index variables
     int bgFrameIndex = 0;
     int charFrameIndex = 0;
+    int attack =0;
 
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
@@ -87,14 +89,15 @@ public class BasicGame implements GameLoop {
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle);
+                GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.CHARACTER_SELECT);
+                GameManager.player2.playLoopingAnimation(GameManager.player2.idle,gameState.CHARACTER_SELECT);
 
 
                 break;
             case BATTLE:
                 GameManager.drawMaps(maps[randomMap]);
                 break;
+
         }
 
         GameManager.jukebox(state);
@@ -234,6 +237,23 @@ public class BasicGame implements GameLoop {
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
 
                 break;
+            case BATTLE:
+                if (idle) {
+                    GameManager.player1.playLoopingAnimation(GameManager.player1.idle, gameState.BATTLE);
+                    GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.BATTLE);
+                } else {
+                    if (attack == 1) {
+                        GameManager.player1.playLoopingAnimation(GameManager.player1.attack, gameState.BATTLE);
+                        GameManager.player1.playLoopingAnimation(GameManager.player2.hit, gameState.BATTLE);
+
+                    }
+                }
+
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
+                    idle = false;
+                    attack = 1;
+                }
+
         }
 
 
