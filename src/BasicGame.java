@@ -86,8 +86,8 @@ public class BasicGame implements GameLoop {
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle, gameState.CHARACTER_SELECT);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.CHARACTER_SELECT);
+                GameManager.player1.loopAnimation(GameManager.player1.idle, Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
+                GameManager.player2.loopAnimation(GameManager.player2.idle, Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
 
 
                 break;
@@ -255,6 +255,9 @@ public class BasicGame implements GameLoop {
                 if (player1Choice == true && player2Choice == true) {
                     state = gameState.BATTLE;
                 }
+                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
+                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
+
                 break;
             case BATTLE:
 

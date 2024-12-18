@@ -225,6 +225,5 @@ public class GameManager {
         } else if (x == 775 && y == 490) {
             player.updatePlayer(fighters[3]);
         }
-
     }
 }
