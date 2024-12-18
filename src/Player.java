@@ -14,6 +14,7 @@ public class Player {
     public String name;
     public String pic;
     public Map map;
+    public String state = "idle";
 
     public ArrayList<String> attack = new ArrayList<>();
     public int attackIndex = 0;
@@ -89,16 +90,18 @@ public class Player {
         this.spd = fighter.spd;
     }
 
-    public void playAnimation(ArrayList<String> animation, String soundEffect) {
+    public void playAnimation(ArrayList<String> animation, int x, int y, String soundEffect) {
 
         // Sound effects here
 //        MediaPlayer player = new MediaPlayer(soundEffect,false);
 //        player.play();
 
         for (String frame : animation) {
-            SaxionApp.drawImage(frame, 0, 240);
-            SaxionApp.sleep(0.001);
+            SaxionApp.drawImage(frame, x, y);
+            SaxionApp.sleep(0.05);
         }
+
+        this.state = "idle";
     }
 
     public void resetIndexes() {
@@ -119,7 +122,7 @@ public class Player {
         }
 
         SaxionApp.drawImage(animation.get(idleIndex), x, y);
-        SaxionApp.sleep(0.02);
+        SaxionApp.sleep(0.04);
 
         idleIndex = (idleIndex + 1) % animation.size();
     }

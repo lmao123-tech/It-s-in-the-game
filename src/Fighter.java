@@ -15,6 +15,7 @@ public class Fighter {
     public String pic;
     public Map map;
     public String imagePath;
+    public String state = "idle";
 
     public ArrayList<String> attackR = new ArrayList<>();
     public ArrayList<String> attackL = new ArrayList<>();

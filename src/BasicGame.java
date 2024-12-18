@@ -92,14 +92,9 @@ public class BasicGame implements GameLoop {
 
                 break;
             case BATTLE:
-                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
-                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
-
-
-
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.BATTLE);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.BATTLE);
-
+                if (GameManager.player1.state.equalsIgnoreCase("idle")) {
+                    GameManager.player1.loopAnimation(GameManager.player1.idle, 250, 250);
+                }
 
                 break;
         }
@@ -260,6 +255,12 @@ public class BasicGame implements GameLoop {
 
                 break;
             case BATTLE:
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
+                    new Thread(() -> {
+                        GameManager.player1.state = "attack";
+                        GameManager.player1.playAnimation(GameManager.player1.attack, 250, 250, "");
+                    }).start();
+                }
 
         }
     }
