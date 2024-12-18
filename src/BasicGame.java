@@ -10,7 +10,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.BATTLE;
+    gameState state = gameState.CHARACTER_SELECT;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -87,8 +87,8 @@ public class BasicGame implements GameLoop {
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle);
+                GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.CHARACTER_SELECT);
+                GameManager.player2.playLoopingAnimation(GameManager.player2.idle,gameState.CHARACTER_SELECT);
 
 
                 break;
