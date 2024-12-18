@@ -229,7 +229,11 @@ public class BasicGame implements GameLoop {
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
 
                 break;
+            case BATTLE:
+
         }
+
+
     }
 
     @Override
