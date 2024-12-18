@@ -30,6 +30,8 @@ public class BasicGame implements GameLoop {
     int bgFrameIndex = 0;
     int charFrameIndex = 0;
 
+    int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
+    
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
@@ -88,14 +90,14 @@ public class BasicGame implements GameLoop {
                 GameManager.displayAllStats(GameManager.player2);
                 GameManager.player1.playLoopingAnimation(GameManager.player1.idle, gameState.CHARACTER_SELECT);
                 GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.CHARACTER_SELECT);
-
-
+                randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
                 break;
             case BATTLE:
+                Map[] playerMaps = new Map[] {GameManager.player1.map, GameManager.player2.map};
+                playerMaps[randomMapIndex].animateMap();
 
                 GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.BATTLE);
                 GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.BATTLE);
-
 
                 break;
         }

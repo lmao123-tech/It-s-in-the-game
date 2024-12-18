@@ -231,6 +231,5 @@ public class GameManager {
             int randomFighter = SaxionApp.getRandomValueBetween(0, newFighters.length);
             player.updatePlayer(newFighters[randomFighter]);
         }
-
     }
 }
