@@ -85,9 +85,12 @@ public class BasicGame implements GameLoop {
                 GameManager.player1.loopAnimation(GameManager.player1.idle, Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
                 GameManager.player2.loopAnimation(GameManager.player2.idle, Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
 
-
+                state = gameState.BATTLE;
                 break;
             case BATTLE:
+                if (GameManager.player1.state.equalsIgnoreCase("idle")) {
+                    GameManager.player1.loopAnimation(GameManager.player1.idle, 250, 250);
+                }
 
                 break;
         }
@@ -229,6 +232,14 @@ public class BasicGame implements GameLoop {
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
 
                 break;
+            case BATTLE:
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
+                    new Thread(() -> {
+                        GameManager.player1.state = "attack";
+                        GameManager.player1.playAnimation(GameManager.player1.attack, 250, 250, "");
+                    }).start();
+                }
+
         }
     }
 
