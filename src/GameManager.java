@@ -212,7 +212,6 @@ public class GameManager {
         }
     }
 
-
     public void drawMaps(Map name) {
         name.animateMap();
     }
