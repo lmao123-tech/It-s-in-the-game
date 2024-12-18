@@ -55,7 +55,7 @@ public class Player {
 
         if (this.name.equalsIgnoreCase("player 1")) {
             importAllAnimationsR(fighter);
-        } else {
+        } else if (this.name.equalsIgnoreCase("player 2")) {
             importAllAnimationsL(fighter);
         }
     }
@@ -95,7 +95,6 @@ public class Player {
     }
 
     public void playAnimation(ArrayList<String> animation) {
-
         // Sound effects here
 //        MediaPlayer player = new MediaPlayer(soundEffect,false);
 //        player.play();
@@ -130,8 +129,6 @@ public class Player {
         } else if (this.name.equalsIgnoreCase("player 2") && state == BasicGame.gameState.BATTLE) {
             SaxionApp.drawImage(animation.get(idleIndex), Variables.CS_P2X - 368, Variables.CS_P2Y - 36);
         }
-
-
 
         SaxionApp.sleep(0.02);
         idleIndex++;
