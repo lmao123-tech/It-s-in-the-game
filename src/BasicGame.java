@@ -10,11 +10,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.CHARACTER_SELECT;
-
-    //Check if the players locked in
-    boolean player1Choice = false;
-    boolean player2Choice = false;
+    gameState state = gameState.BATTLE;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -33,6 +29,11 @@ public class BasicGame implements GameLoop {
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
+
+    //random map selector
+    Map[] maps = new Map[] {GameManager.mapFire, GameManager.mapLightning, GameManager.mapWater};
+    int randomMap = SaxionApp.getRandomValueBetween(0,3);
+
 
     public static void main(String[] args) {
         SaxionApp.startGameLoop(new BasicGame(), 1600, 672, 40);
@@ -86,21 +87,13 @@ public class BasicGame implements GameLoop {
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle, gameState.CHARACTER_SELECT);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.CHARACTER_SELECT);
+                GameManager.player1.playLoopingAnimation(GameManager.player1.idle);
+                GameManager.player2.playLoopingAnimation(GameManager.player2.idle);
 
 
                 break;
             case BATTLE:
-                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
-                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
-
-
-
-                GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.BATTLE);
-                GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.BATTLE);
-
-
+                GameManager.drawMaps(maps[randomMap]);
                 break;
         }
 
@@ -161,102 +154,86 @@ public class BasicGame implements GameLoop {
                 break;
             case CHARACTER_SELECT:
                 // Player 1 controls
-                if (!player1Choice) {
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && keyboardEvent.isKeyPressed()) {
-                        GameManager.playSound(Variables.PATH + "cursor.wav");
-                        Variables.p1choice += 1;
-                        Variables.csCursorP1X += 150;
-                        if (Variables.csCursorP1X > 775) {
-                            Variables.p1choice -= 2;
-                            Variables.csCursorP1X = 625;
-                        }
-                        GameManager.player1.resetIndexes();
-                    } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && keyboardEvent.isKeyPressed()) {
-                        GameManager.playSound(Variables.PATH + "cursor.wav");
-                        Variables.p1choice -= 1;
-                        Variables.csCursorP1X -= 150;
-                        if (Variables.csCursorP1X < 600) {
-                            Variables.p1choice += 2;
-                            Variables.csCursorP1X = 775;
-                        }
-                        GameManager.player1.resetIndexes();
-                    } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
-                        GameManager.playSound(Variables.PATH + "cursor.wav");
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p1choice += 1;
+                    Variables.csCursorP1X += 150;
+                    if (Variables.csCursorP1X > 775) {
                         Variables.p1choice -= 2;
-                        Variables.csCursorP1Y -= 150;
-                        if (Variables.csCursorP1Y < 340) {
-                            Variables.p1choice += 4;
-                            Variables.csCursorP1Y = 490;
-                        }
-                        GameManager.player1.resetIndexes();
-                    } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && keyboardEvent.isKeyPressed()) {
-                        GameManager.playSound(Variables.PATH + "cursor.wav");
-                        Variables.p1choice += 2;
-                        Variables.csCursorP1Y += 150;
-                        if (Variables.csCursorP1Y > 490) {
-                            Variables.p1choice -= 4;
-                            Variables.csCursorP1Y = 340;
-                        }
-                        GameManager.player1.resetIndexes();
+                        Variables.csCursorP1X = 625;
                     }
+                    GameManager.player1.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p1choice -= 1;
+                    Variables.csCursorP1X -= 150;
+                    if (Variables.csCursorP1X < 600) {
+                        Variables.p1choice += 2;
+                        Variables.csCursorP1X = 775;
+                    }
+                    GameManager.player1.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p1choice -= 2;
+                    Variables.csCursorP1Y -= 150;
+                    if (Variables.csCursorP1Y < 340) {
+                        Variables.p1choice += 4;
+                        Variables.csCursorP1Y = 490;
+                    }
+                    GameManager.player1.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p1choice += 2;
+                    Variables.csCursorP1Y += 150;
+                    if (Variables.csCursorP1Y > 490) {
+                        Variables.p1choice -= 4;
+                        Variables.csCursorP1Y = 340;
+                    }
+                    GameManager.player1.resetIndexes();
                 }
 
-                    // Player 2 controls
-                    if (!player2Choice) {
-                        if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && keyboardEvent.isKeyPressed()) {
-                            GameManager.playSound(Variables.PATH + "cursor.wav");
-                            Variables.p2choice += 1;
-                            Variables.csCursorP2X += 150;
-                            if (Variables.csCursorP2X > 775) {
-                                Variables.p2choice -= 2;
-                                Variables.csCursorP2X = 625;
-                            }
-                            GameManager.player2.resetIndexes();
-                        } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT && keyboardEvent.isKeyPressed()) {
-                            GameManager.playSound(Variables.PATH + "cursor.wav");
-                            Variables.p2choice -= 1;
-                            Variables.csCursorP2X -= 150;
-                            if (Variables.csCursorP2X < 600) {
-                                Variables.p2choice += 2;
-                                Variables.csCursorP2X = 775;
-                            }
-                            GameManager.player2.resetIndexes();
-                        } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
-                            GameManager.playSound(Variables.PATH + "cursor.wav");
-                            Variables.p2choice -= 2;
-                            Variables.csCursorP2Y -= 150;
-                            if (Variables.csCursorP2Y < 340) {
-                                Variables.p2choice += 4;
-                                Variables.csCursorP2Y = 490;
-                            }
-                            GameManager.player2.resetIndexes();
-                        } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && keyboardEvent.isKeyPressed()) {
-                            GameManager.playSound(Variables.PATH + "cursor.wav");
-                            Variables.p2choice += 2;
-                            Variables.csCursorP2Y += 150;
-                            if (Variables.csCursorP2Y > 490) {
-                                Variables.p2choice -= 4;
-                                Variables.csCursorP2Y = 340;
-                            }
-                            GameManager.player2.resetIndexes();
-                        }
+                // Player 2 controls
+                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p2choice += 1;
+                    Variables.csCursorP2X += 150;
+                    if (Variables.csCursorP2X > 775) {
+                        Variables.p2choice -= 2;
+                        Variables.csCursorP2X = 625;
                     }
+                    GameManager.player2.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p2choice -= 1;
+                    Variables.csCursorP2X -= 150;
+                    if (Variables.csCursorP2X < 600) {
+                        Variables.p2choice += 2;
+                        Variables.csCursorP2X = 775;
+                    }
+                    GameManager.player2.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p2choice -= 2;
+                    Variables.csCursorP2Y -= 150;
+                    if (Variables.csCursorP2Y < 340) {
+                        Variables.p2choice += 4;
+                        Variables.csCursorP2Y = 490;
+                    }
+                    GameManager.player2.resetIndexes();
+                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && keyboardEvent.isKeyPressed()) {
+                    GameManager.playSound(Variables.PATH + "cursor.wav");
+                    Variables.p2choice += 2;
+                    Variables.csCursorP2Y += 150;
+                    if (Variables.csCursorP2Y > 490) {
+                        Variables.p2choice -= 4;
+                        Variables.csCursorP2Y = 340;
+                    }
+                    GameManager.player2.resetIndexes();
+                }
                 GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
                 GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
 
-                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SPACE && keyboardEvent.isKeyPressed()){
-                    GameManager.selectCharacter(GameManager.player1, player1Choice, player2Choice);
-                    player1Choice = true;
-                } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ENTER && keyboardEvent.isKeyPressed()){
-                    GameManager.selectCharacter(GameManager.player2, player1Choice, player2Choice);
-                    player2Choice = true;
-                }
-                if (player1Choice == true && player2Choice == true) {
-                    state = gameState.BATTLE;
-                }
                 break;
-            case BATTLE:
-
         }
 
 
