@@ -23,6 +23,7 @@ public class GameManager {
     // Creates an array of fighters that players select from on the Character Select screen
     ArrayList<Fighter> fighterChoices = new ArrayList();
     Fighter[] fighters = new Fighter[4];
+    Fighter[] newFighters = new Fighter[3];
 
     // Creates the music player
     MediaPlayer musicPlayer = new MediaPlayer("intro.mp3", true);
@@ -112,6 +113,10 @@ public class GameManager {
         fighters[1] = water;
         fighters[2] = lightning;
         fighters[3] = random;
+
+        newFighters[0] = fire;
+        newFighters[1] = water;
+        newFighters[2] = lightning;
     }
 
     public void initMaps() {
@@ -217,13 +222,14 @@ public class GameManager {
         int y = (player.name.equalsIgnoreCase("player 1")) ? Variables.csCursorP1Y : Variables.csCursorP2Y;
 
         if (x == 625 && y == 340) {
-            player.updatePlayer(fighters[0]);
+            player.updatePlayer(newFighters[0]);
         } else if (x == 775 && y == 340) {
-            player.updatePlayer(fighters[1]);
+            player.updatePlayer(newFighters[1]);
         } else if (x == 625 && y == 490) {
-            player.updatePlayer(fighters[2]);
+            player.updatePlayer(newFighters[2]);
         } else if (x == 775 && y == 490) {
-            player.updatePlayer(fighters[3]);
+            int randomFighter = SaxionApp.getRandomValueBetween(0, newFighters.length);
+            player.updatePlayer(newFighters[randomFighter]);
         }
 
     }

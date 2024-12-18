@@ -92,10 +92,6 @@ public class BasicGame implements GameLoop {
 
                 break;
             case BATTLE:
-                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
-                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
-
-
 
                 GameManager.player1.playLoopingAnimation(GameManager.player1.idle,gameState.BATTLE);
                 GameManager.player2.playLoopingAnimation(GameManager.player2.idle, gameState.BATTLE);
@@ -249,10 +245,7 @@ public class BasicGame implements GameLoop {
                             GameManager.player2.resetIndexes();
                         }
                     }
-                GameManager.updatePlayer(GameManager.player1, GameManager.fighters[Variables.p1choice]);
-                GameManager.updatePlayer(GameManager.player2, GameManager.fighters[Variables.p2choice]);
-
-                if (player1Choice == true && player2Choice == true) {
+                if (player1Choice && player2Choice) {
                     state = gameState.BATTLE;
                 }
                 break;
