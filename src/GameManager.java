@@ -216,20 +216,4 @@ public class GameManager {
             SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x + 36, y);
         }
     }
-
-    public void selectCharacter(Player player, boolean player1, boolean player2) {
-        int x = (player.name.equalsIgnoreCase("player 1")) ? Variables.csCursorP1X : Variables.csCursorP2X;
-        int y = (player.name.equalsIgnoreCase("player 1")) ? Variables.csCursorP1Y : Variables.csCursorP2Y;
-
-        if (x == 625 && y == 340) {
-            player.updatePlayer(newFighters[0]);
-        } else if (x == 775 && y == 340) {
-            player.updatePlayer(newFighters[1]);
-        } else if (x == 625 && y == 490) {
-            player.updatePlayer(newFighters[2]);
-        } else if (x == 775 && y == 490) {
-            int randomFighter = SaxionApp.getRandomValueBetween(0, newFighters.length);
-            player.updatePlayer(newFighters[randomFighter]);
-        }
-    }
 }

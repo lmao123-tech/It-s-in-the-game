@@ -82,16 +82,15 @@ public class BasicGame implements GameLoop {
                 GameManager.drawCharSelectScreen();
                 GameManager.displayAllStats(GameManager.player1);
                 GameManager.displayAllStats(GameManager.player2);
-                GameManager.player1.loopAnimation(GameManager.player1.idle, Variables.CS_P1X - 350, Variables.CS_P1Y - 186);
-                GameManager.player2.loopAnimation(GameManager.player2.idle, Variables.CS_P2X - 338, Variables.CS_P2Y - 186);
+                GameManager.player1.drawCurrentAnimation(Variables.CS_P1X - 350, Variables.CS_P1Y - 186, currentTime);
+                GameManager.player2.drawCurrentAnimation(Variables.CS_P2X - 338, Variables.CS_P2Y - 186, currentTime);
 
                 state = gameState.BATTLE;
                 break;
             case BATTLE:
-                if (GameManager.player1.state.equalsIgnoreCase("idle")) {
-                    GameManager.player1.loopAnimation(GameManager.player1.idle, 250, 250);
-                }
-
+                // Draw player animations
+                GameManager.player1.drawCurrentAnimation(250, 250, currentTime);
+                GameManager.player2.drawCurrentAnimation(750, 250, currentTime);
                 break;
         }
 
@@ -233,12 +232,34 @@ public class BasicGame implements GameLoop {
 
                 break;
             case BATTLE:
-                if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && keyboardEvent.isKeyPressed()) {
-                    new Thread(() -> {
-                        GameManager.player1.state = "attack";
-                        GameManager.player1.playAnimation(GameManager.player1.attack, 250, 250, "");
-                    }).start();
+                if (keyboardEvent.isKeyPressed()) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W) {
+                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            GameManager.player1.setAnimation("attack");
+                            GameManager.player1.state = "attack";
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A) {
+                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            GameManager.player1.setAnimation("sattack");
+                            GameManager.player1.state = "sattack";
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
+                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            GameManager.player1.setAnimation("special");
+                            GameManager.player1.state = "special";
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
+                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            GameManager.player1.setAnimation("ultimate");
+                            GameManager.player1.state = "ultimate";
+                        }
+                    }
                 }
+
+                break;
 
         }
     }
