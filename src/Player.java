@@ -134,7 +134,6 @@ public class Player {
         this.spd = fighter.spd;
     }
 
-
     public void playSound(String soundEffect) {
         MediaPlayer player = new MediaPlayer(soundEffect,false);
         new Thread(player::play).start();
