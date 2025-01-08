@@ -1,4 +1,5 @@
 import nl.saxion.app.SaxionApp;
+import nl.saxion.app.audio.MediaPlayer;
 
 import java.util.ArrayList;
 
@@ -15,33 +16,76 @@ public class Player {
     public String pic;
     public Map map;
     public String state = "idle";
+    private String currentAnimation = "idle"; // Current animation type
+    private int animationIndex = 0; // Current frame index
+    private long lastFrameTime = 0; // Timestamp of the last frame update
+    public boolean animationComplete = true;
 
     public ArrayList<String> attack = new ArrayList<>();
-    public int attackIndex = 0;
-
     public ArrayList<String> dead = new ArrayList<>();
-    public int deadIndex = 0;
-
     public ArrayList<String> defend = new ArrayList<>();
-    public int defendIndex;
-
     public ArrayList<String> hit = new ArrayList<>();
-    public int hitIndex = 0;
-
     public ArrayList<String> idle = new ArrayList<>();
-    public int idleIndex = 0;
-
     public ArrayList<String> run = new ArrayList<>();
-    public int runIndex;
-
     public ArrayList<String> sattack = new ArrayList<>();
-    public int sattackIndex = 0;
-
     public ArrayList<String> special = new ArrayList<>();
-    public int specialIndex = 0;
-
     public ArrayList<String> ultimate = new ArrayList<>();
-    public int ultimateIndex = 0;
+
+    // Set the animation state and reset the frame index
+    public void setAnimation(String animationName) {
+        if (!currentAnimation.equals(animationName) || animationComplete) {
+            currentAnimation = animationName;
+            animationIndex = 0; // Reset frame index for the new animation
+            lastFrameTime = 0; // Reset timing
+            animationComplete = false;
+        }
+    }
+
+    // Get the frame delay for each animation in milliseconds
+    private long getFrameDelay(String animationName) {
+        return switch (animationName) {
+            case "attack" -> 47;
+            case "dead", "idle" -> 70;
+            default -> 50;
+        };
+    }
+
+    // Get the current animation frames
+    private ArrayList<String> getCurrentAnimationFrames() {
+        return switch (currentAnimation) {
+            case "attack" -> attack;
+            case "dead" -> dead;
+            case "hit" -> hit;
+            case "sattack" -> sattack;
+            case "special" -> special;
+            case "ultimate" -> ultimate;
+            // Add cases for other animations as needed
+            default -> idle;
+        };
+    }
+
+    // Draw the current frame of the animation
+    public void drawCurrentAnimation(int x, int y, long currentTime) {
+        ArrayList<String> frames = getCurrentAnimationFrames();
+        long frameDelay = getFrameDelay(currentAnimation); // Adjust frame delay for smoother animations (in ms)
+
+        // Update the frame index if enough time has passed
+        if (currentTime - lastFrameTime >= frameDelay) {
+            animationIndex = (animationIndex + 1) % frames.size();
+            lastFrameTime = currentTime;
+
+            // Reset to idle state if the animation completes and isn't looping
+            if (animationIndex == 0 && !currentAnimation.equals("idle")) {
+                setAnimation("idle");
+                animationComplete = true;
+            }
+        }
+
+        // Draw the current frame
+        if (animationIndex >= 0 && animationIndex < frames.size()) {
+            SaxionApp.drawImage(frames.get(animationIndex), x, y);
+        }
+    }
 
     public void updatePlayer(Fighter fighter) {
         this.pic = fighter.pic;
@@ -90,40 +134,14 @@ public class Player {
         this.spd = fighter.spd;
     }
 
-    public void playAnimation(ArrayList<String> animation, int x, int y, String soundEffect) {
+    public void playSound(String soundEffect) {
+        MediaPlayer player = new MediaPlayer(soundEffect,false);
+        new Thread(player::play).start();
 
-        // Sound effects here
-//        MediaPlayer player = new MediaPlayer(soundEffect,false);
-//        player.play();
-
-        for (String frame : animation) {
-            SaxionApp.drawImage(frame, x, y);
-            SaxionApp.sleep(0.05);
-        }
-
-        this.state = "idle";
     }
 
     public void resetIndexes() {
-        this.attackIndex = 0;
-        this.defendIndex = 0;
-        this.deadIndex = 0;
-        this.hitIndex = 0;
-        this.idleIndex = 0;
-        this.runIndex = 0;
-        this.sattackIndex = 0;
-        this.specialIndex = 0;
-        this.ultimateIndex = 0;
-    }
-
-    public void loopAnimation(ArrayList<String> animation, int x, int y) {
-        if (idleIndex > animation.size()) {
-            idleIndex = 0;
-        }
-
-        SaxionApp.drawImage(animation.get(idleIndex), x, y);
-        SaxionApp.sleep(0.04);
-
-        idleIndex = (idleIndex + 1) % animation.size();
+        this.animationIndex = 0; // Reset the animation index
+        this.lastFrameTime = 0;
     }
 }
