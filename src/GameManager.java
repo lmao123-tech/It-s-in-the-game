@@ -195,6 +195,10 @@ public class GameManager {
 
     }
 
+    public void testMethod() {
+        // code here
+    }
+
     public void displayStat(int stat, int x, int y) {
         if (stat > 0) {
             int hundreds;
