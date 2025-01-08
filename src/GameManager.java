@@ -39,6 +39,9 @@ public class GameManager {
             new Thread(() -> {
                 switch (state) {
                     case INTRO:
+//                        playSong("resources/m1.wav", true);
+                        break;
+                    case INTRO_OVER:
                         playSong("resources/m1.wav", true);
                         break;
                     case CHARACTER_SELECT:
@@ -50,13 +53,15 @@ public class GameManager {
     }
 
     public void playSong(String song, boolean loop) {
+        musicPlayer.stop();
         musicPlayer.setFile(song);
         musicPlayer.setLoop(loop);
         musicPlayer.play();
     }
 
-    public void playSound(String sound) {
+    public void playSound(String sound, float volume) {
         MediaPlayer soundPlayer = new MediaPlayer(sound, false);
+        soundPlayer.setVolume(volume);
         new Thread(soundPlayer::play).start();
     }
 
