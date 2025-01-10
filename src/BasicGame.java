@@ -94,8 +94,8 @@ public class BasicGame implements GameLoop {
                 GameManager.player2.drawCurrentAnimation(Variables.CS_P2X - 338, Variables.CS_P2Y - 186, currentTime);
 
                 if (player1Choice && player2Choice) {
+                    randomizeFighter();
                     state = gameState.BATTLE;
-
                 }
                 break;
             case BATTLE:
@@ -116,7 +116,6 @@ public class BasicGame implements GameLoop {
                 if(GameManager.player2.moving){
                     GameManager.player2.characterDash(GameManager.player2);
                 }
-
 
 
 //                if (GameManager.player2.moving && Player.B_P2X > 370) {
