@@ -227,12 +227,12 @@ public class GameManager {
 
     public void drawCountdown() {
         if (printedNumber == 0) {
-            SaxionApp.drawImage(Variables.PATH + "battle/Fight!!.png", 450, descent);
+            SaxionApp.drawImage(Variables.PATH + "battle/Fight!!.png", 400, descent);
         } else {
             SaxionApp.drawImage(Variables.PATH + "battle/" + printedNumber + "_Countdown.png", 625, descent);
         }
 
-        descent += 50;
+        descent += 45;
         if(descent >= 200) {
             printedNumber--;
             descent = -275;

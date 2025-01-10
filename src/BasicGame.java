@@ -107,7 +107,7 @@ public class BasicGame implements GameLoop {
                 }
 
                 // Draw player animations
-                GameManager.player1.drawCurrentAnimation(250, 250, currentTime);
+                GameManager.player1.drawCurrentAnimation(-70, 250, currentTime);
                 GameManager.player2.drawCurrentAnimation(750, 250, currentTime);
                 break;
         }
