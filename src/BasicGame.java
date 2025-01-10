@@ -95,7 +95,7 @@ public class BasicGame implements GameLoop {
 
                 if (player1Choice && player2Choice) {
                     state = gameState.BATTLE;
-                    randomizeFighter();
+
                 }
                 break;
             case BATTLE:

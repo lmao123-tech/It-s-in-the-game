@@ -16,10 +16,8 @@ public class Player {
     public String pic;
     public Map map;
     public String state = "idle";
-    public int playerX = -70;
+    public int playerX;
     public int playerY = 250;
-    public static int B_P2X = 750;
-    public static int B_P2Y = 250;
     private String currentAnimation = "idle"; // Current animation type
     private int animationIndex = 0; // Current frame index
     private long lastFrameTime = 0; // Timestamp of the last frame update
@@ -141,6 +139,14 @@ public class Player {
         this.spd = fighter.spd;
     }
 
+    public void setBattleCoords() {
+        if (this.name.equalsIgnoreCase("player1")) {
+            this.playerX = -70;
+        } else {
+            this.playerX = 750;
+        }
+    }
+
     public void playSound(String soundEffect) {
         MediaPlayer player = new MediaPlayer(soundEffect, false);
         new Thread(player::play).start();
@@ -169,7 +175,6 @@ public class Player {
             }
         }
         else if (this.name.equalsIgnoreCase("player2")) {
-            this.playerX = 750;
             System.out.print(moving);
 
             if ((moving && this.playerX > 370)) {

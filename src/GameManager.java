@@ -133,6 +133,9 @@ public class GameManager {
     public void initPlayers() {
         player1.name = "player1";
         player2.name = "player2";
+
+        player1.setBattleCoords();
+        player2.setBattleCoords();
     }
 
     public void updatePlayer(Player player, Fighter fighter) {
