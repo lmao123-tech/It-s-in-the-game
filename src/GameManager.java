@@ -221,4 +221,24 @@ public class GameManager {
             SaxionApp.drawImage(Variables.PATH_CS + "unknown.png", x + 36, y);
         }
     }
+
+    int descent = -275;
+    int printedNumber = 3;
+
+    public void drawCountdown() {
+        if (printedNumber == 0) {
+            SaxionApp.drawImage(Variables.PATH + "battle/Fight!!.png", 450, descent);
+        } else {
+            SaxionApp.drawImage(Variables.PATH + "battle/" + printedNumber + "_Countdown.png", 625, descent);
+        }
+
+        descent += 50;
+        if(descent >= 200) {
+            printedNumber--;
+            descent = -275;
+            if (printedNumber < 0) {
+                BasicGame.countdownFinished = true;
+            }
+        }
+    }
 }
