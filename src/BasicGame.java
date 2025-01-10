@@ -13,7 +13,9 @@ public class BasicGame implements GameLoop {
     gameState state = gameState.CHARACTER_SELECT;
 
     //Random index for the map
-    int randomMapIndex = SaxionApp.getRandomValueBetween(0,2);
+    int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
+    //smooth movement
+
 
     //Check if the players locked in
     boolean player1Choice = false;
@@ -99,7 +101,7 @@ public class BasicGame implements GameLoop {
                 }
                 break;
             case BATTLE:
-                Map[] maps = new Map[] {GameManager.player1.map, GameManager.player2.map};
+                Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
                 if (!countdownFinished) {
@@ -107,6 +109,29 @@ public class BasicGame implements GameLoop {
                 }
 
                 // Draw player animations
+                System.out.println(GameManager.player1.playerX);
+                GameManager.player1.drawCurrentAnimation(GameManager.player1.xCoordinateChange(), GameManager.player1.playerY, currentTime);
+                GameManager.player2.drawCurrentAnimation(GameManager.player2.xCoordinateChange(), GameManager.player2.playerY, currentTime);
+
+                if (GameManager.player1.moving) {
+                    GameManager.player1.characterDash(GameManager.player1);
+                }
+                if(GameManager.player2.moving){
+                    GameManager.player2.characterDash(GameManager.player2);
+                }
+
+
+
+//                if (GameManager.player2.moving && Player.B_P2X > 370) {
+//                    Player.B_P2X -= 25;
+//                    GameManager.player2.setAnimation("run");
+//                    if (Player.B_P2X <= 370) {
+//                        GameManager.player2.moving = false;
+//                        GameManager.player2.setAnimation("idle");
+//                        GameManager.player2.state = "idle";
+//                    }
+//                }
+
                 GameManager.player1.drawCurrentAnimation(-70, 250, currentTime);
                 GameManager.player2.drawCurrentAnimation(750, 250, currentTime);
                 break;
@@ -180,7 +205,7 @@ public class BasicGame implements GameLoop {
         }
     }
 
-    public void randomizeFighter(){
+    public void randomizeFighter() {
         if (Variables.p1choice == 3) {
             Variables.p1choice = SaxionApp.getRandomValueBetween(0, 3);
             GameManager.player1.updatePlayer(GameManager.fighters[Variables.p1choice]);
@@ -316,6 +341,29 @@ public class BasicGame implements GameLoop {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
                             GameManager.player1.setAnimation("ultimate");
                             GameManager.player1.state = "ultimate";
+                        }
+                    }
+
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_0) {
+                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            GameManager.player1.setAnimation("run");
+                            GameManager.player1.state = "run";
+                            GameManager.player1.moving = true;
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_P) {
+                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
+                            GameManager.player2.setAnimation("run");
+                            GameManager.player2.state = "run";
+                            GameManager.player2.moving = true;
+
+                        }
+                    }
+
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP) {
+                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
+                            GameManager.player2.setAnimation("attack");
+                            GameManager.player2.state = "attack";
                         }
                     }
                 }

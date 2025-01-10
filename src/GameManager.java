@@ -71,7 +71,7 @@ public class GameManager {
 
     public Fighter getFighter(String name) {
         for (Fighter fighter : fighters) {
-            if (fighter.name.equalsIgnoreCase(name)){
+            if (fighter.name.equalsIgnoreCase(name)) {
                 return fighter;
             }
         }

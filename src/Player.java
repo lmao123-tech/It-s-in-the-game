@@ -16,10 +16,15 @@ public class Player {
     public String pic;
     public Map map;
     public String state = "idle";
+    public int playerX = -70;
+    public int playerY = 250;
+    public static int B_P2X = 750;
+    public static int B_P2Y = 250;
     private String currentAnimation = "idle"; // Current animation type
     private int animationIndex = 0; // Current frame index
     private long lastFrameTime = 0; // Timestamp of the last frame update
     public boolean animationComplete = true;
+    boolean moving = false;
 
     public ArrayList<String> attack = new ArrayList<>();
     public ArrayList<String> dead = new ArrayList<>();
@@ -46,6 +51,7 @@ public class Player {
         return switch (animationName) {
             case "attack" -> 47;
             case "dead", "idle" -> 70;
+            case "run" -> 1;
             default -> 50;
         };
     }
@@ -59,6 +65,7 @@ public class Player {
             case "sattack" -> sattack;
             case "special" -> special;
             case "ultimate" -> ultimate;
+            case "run" -> run;
             // Add cases for other animations as needed
             default -> idle;
         };
@@ -135,7 +142,7 @@ public class Player {
     }
 
     public void playSound(String soundEffect) {
-        MediaPlayer player = new MediaPlayer(soundEffect,false);
+        MediaPlayer player = new MediaPlayer(soundEffect, false);
         new Thread(player::play).start();
 
     }
@@ -143,5 +150,67 @@ public class Player {
     public void resetIndexes() {
         this.animationIndex = 0; // Reset the animation index
         this.lastFrameTime = 0;
+    }
+
+    public void characterDash(Player player) {
+        if (this.name.equalsIgnoreCase("player1")) {
+            player.playerX = -70;
+            System.out.print(moving);
+
+            if (moving && player.playerX < 200) {
+                player.playerX = player.playerX + 25;
+                this.setAnimation("run");
+
+                if (player.playerX >= 200) {
+                    moving = false;
+                    setAnimation("idle");
+                    state = "idle";
+                }
+            } else if (this.name.equalsIgnoreCase("player2")) {
+                player.playerX = 750;
+                System.out.print(moving);
+                if ((moving && player.playerX > 370)) {
+                    player.playerX = player.playerX - 25;
+                    this.setAnimation("run");
+
+                    if (player.playerX <= 370) {
+                        moving = false;
+                        setAnimation("idle");
+                        state = "idle";
+                    }
+                }
+            }
+
+        }
+    }
+
+    public int xCoordinateChange() {
+        if (this.name.equalsIgnoreCase("player1")) {
+            playerX = -70;
+        } else if (this.name.equalsIgnoreCase("player2")) {
+            playerX = 750;
+        }
+
+        return playerX;
+    }
+
+    public int mover() {
+        int mover = 0;
+        if (this.name.equalsIgnoreCase("player1")) {
+            mover = 25;
+        } else if (this.name.equalsIgnoreCase("player2")) {
+            mover = -25;
+        }
+        return mover;
+    }
+
+    public int limit() {
+        int limit = 0;
+        if (this.name.equalsIgnoreCase("player1")) {
+            limit = 200;
+        } else if (this.name.equalsIgnoreCase("player2")) {
+            limit = 370;
+        }
+        return limit;
     }
 }
