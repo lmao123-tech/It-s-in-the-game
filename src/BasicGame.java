@@ -10,7 +10,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
     }
 
-    gameState state = gameState.INTRO;
+    gameState state = gameState.CHARACTER_SELECT;
 
     //Random index for the map
     int randomMapIndex = SaxionApp.getRandomValueBetween(0,2);
@@ -37,6 +37,8 @@ public class BasicGame implements GameLoop {
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
 
+    public static boolean countdownFinished = false;
+
     public static void main(String[] args) {
         SaxionApp.startGameLoop(new BasicGame(), 1600, 672, 40);
 
@@ -58,7 +60,6 @@ public class BasicGame implements GameLoop {
         GameManager.initMaps();
         GameManager.initFighters();
         GameManager.initPlayers();
-
     }
 
 
@@ -101,8 +102,12 @@ public class BasicGame implements GameLoop {
                 Map[] maps = new Map[] {GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
+                if (!countdownFinished) {
+                    GameManager.drawCountdown();
+                }
+
                 // Draw player animations
-                GameManager.player1.drawCurrentAnimation(250, 250, currentTime);
+                GameManager.player1.drawCurrentAnimation(-70, 250, currentTime);
                 GameManager.player2.drawCurrentAnimation(750, 250, currentTime);
                 break;
         }
