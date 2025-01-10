@@ -100,7 +100,7 @@ public class Player {
 
         importStats(fighter);
 
-        if (this.name.equalsIgnoreCase("player 1")) {
+        if (this.name.equalsIgnoreCase("player1")) {
             importAllAnimationsR(fighter);
         } else {
             importAllAnimationsL(fighter);
@@ -154,34 +154,37 @@ public class Player {
 
     public void characterDash(Player player) {
         if (this.name.equalsIgnoreCase("player1")) {
-            player.playerX = -70;
             System.out.print(moving);
+            System.out.println(this.playerX);
 
-            if (moving && player.playerX < 200) {
-                player.playerX = player.playerX + 25;
+            if (moving && this.playerX < 200) {
+                this.playerX = this.playerX + 25;
                 this.setAnimation("run");
 
-                if (player.playerX >= 200) {
+                if (this.playerX >= 200) {
                     moving = false;
                     setAnimation("idle");
                     state = "idle";
                 }
-            } else if (this.name.equalsIgnoreCase("player2")) {
-                player.playerX = 750;
-                System.out.print(moving);
-                if ((moving && player.playerX > 370)) {
-                    player.playerX = player.playerX - 25;
-                    this.setAnimation("run");
+            }
+        }
+        else if (this.name.equalsIgnoreCase("player2")) {
+            this.playerX = 750;
+            System.out.print(moving);
 
-                    if (player.playerX <= 370) {
-                        moving = false;
-                        setAnimation("idle");
-                        state = "idle";
-                    }
+            if ((moving && this.playerX > 370)) {
+                this.playerX = this.playerX - 25;
+                this.setAnimation("run");
+
+                if (player.playerX <= 370) {
+                    moving = false;
+                    setAnimation("idle");
+                    state = "idle";
                 }
             }
-
         }
+
+
     }
 
     public int xCoordinateChange() {

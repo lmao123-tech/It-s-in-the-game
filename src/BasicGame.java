@@ -13,9 +13,7 @@ public class BasicGame implements GameLoop {
     gameState state = gameState.CHARACTER_SELECT;
 
     //Random index for the map
-    int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
-    //smooth movement
-
+    int randomMapIndex = SaxionApp.getRandomValueBetween(0,2);
 
     //Check if the players locked in
     boolean player1Choice = false;
@@ -101,7 +99,7 @@ public class BasicGame implements GameLoop {
                 }
                 break;
             case BATTLE:
-                Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
+                Map[] maps = new Map[] {GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
                 if (!countdownFinished) {
@@ -109,9 +107,8 @@ public class BasicGame implements GameLoop {
                 }
 
                 // Draw player animations
-                System.out.println(GameManager.player1.playerX);
-                GameManager.player1.drawCurrentAnimation(GameManager.player1.xCoordinateChange(), GameManager.player1.playerY, currentTime);
-                GameManager.player2.drawCurrentAnimation(GameManager.player2.xCoordinateChange(), GameManager.player2.playerY, currentTime);
+                GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
+                GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
 
                 if (GameManager.player1.moving) {
                     GameManager.player1.characterDash(GameManager.player1);
@@ -132,8 +129,10 @@ public class BasicGame implements GameLoop {
 //                    }
 //                }
 
-                GameManager.player1.drawCurrentAnimation(-70, 250, currentTime);
-                GameManager.player2.drawCurrentAnimation(750, 250, currentTime);
+
+                SaxionApp.drawImage("resources/battle/hpbar1.png", 50, 50, 470, 138);
+                SaxionApp.drawImage("resources/battle/hp1-19.png", 50, 50, 470, 138);
+                SaxionApp.drawImage("resources/battle/sp1-14.png", 50, 50, 470, 138);
                 break;
         }
 
@@ -321,6 +320,8 @@ public class BasicGame implements GameLoop {
                 if (keyboardEvent.isKeyPressed()) {
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W) {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+                            // THESE 2 LINES ARE NEEDED TO PLAY AN ANIMATION
+                            // YOU NEED TO SET THE ANIMATION AND THE STATE
                             GameManager.player1.setAnimation("attack");
                             GameManager.player1.state = "attack";
                         }

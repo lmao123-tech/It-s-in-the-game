@@ -131,8 +131,8 @@ public class GameManager {
     }
 
     public void initPlayers() {
-        player1.name = "player 1";
-        player2.name = "player 2";
+        player1.name = "player1";
+        player2.name = "player2";
     }
 
     public void updatePlayer(Player player, Fighter fighter) {
@@ -175,7 +175,7 @@ public class GameManager {
     }
 
     public void displayAllStats(Player player) {
-        if (player.name.equalsIgnoreCase("player 1")) {
+        if (player.name.equalsIgnoreCase("player1")) {
             displayStat(player.hp, Variables.CS_P1X, Variables.CS_P1Y + 300);
             displayStat(player.sp, Variables.CS_P1X + 180, Variables.CS_P1Y + 300);
             displayStat(player.atk, Variables.CS_P1X, Variables.CS_P1Y + 330);
