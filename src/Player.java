@@ -163,11 +163,11 @@ public class Player {
             System.out.print(moving);
             System.out.println(this.playerX);
 
-            if (moving && this.playerX < 200) {
+            if (moving && this.playerX < 240) {
                 this.playerX = this.playerX + 25;
                 this.setAnimation("run");
 
-                if (this.playerX >= 200) {
+                if (this.playerX >= 240) {
                     moving = false;
                     setAnimation("idle");
                     state = "idle";
@@ -177,11 +177,11 @@ public class Player {
         else if (this.name.equalsIgnoreCase("player2")) {
             System.out.print(moving);
 
-            if ((moving && this.playerX > 370)) {
+            if ((moving && this.playerX > 410)) {
                 this.playerX = this.playerX - 25;
                 this.setAnimation("run");
 
-                if (player.playerX <= 370) {
+                if (player.playerX <= 410) {
                     moving = false;
                     setAnimation("idle");
                     state = "idle";
