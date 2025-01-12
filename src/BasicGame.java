@@ -13,7 +13,7 @@ public class BasicGame implements GameLoop {
     gameState state = gameState.CHARACTER_SELECT;
 
     //Random index for the map
-    int randomMapIndex = SaxionApp.getRandomValueBetween(0,2);
+    int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
 
     //Check if the players locked in
     boolean player1Choice = false;
@@ -99,7 +99,7 @@ public class BasicGame implements GameLoop {
                 }
                 break;
             case BATTLE:
-                Map[] maps = new Map[] {GameManager.player1.map, GameManager.player2.map};
+                Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
                 if (!countdownFinished) {
@@ -113,20 +113,9 @@ public class BasicGame implements GameLoop {
                 if (GameManager.player1.moving) {
                     GameManager.player1.characterDash(GameManager.player1);
                 }
-                if(GameManager.player2.moving){
+                if (GameManager.player2.moving) {
                     GameManager.player2.characterDash(GameManager.player2);
                 }
-
-
-//                if (GameManager.player2.moving && Player.B_P2X > 370) {
-//                    Player.B_P2X -= 25;
-//                    GameManager.player2.setAnimation("run");
-//                    if (Player.B_P2X <= 370) {
-//                        GameManager.player2.moving = false;
-//                        GameManager.player2.setAnimation("idle");
-//                        GameManager.player2.state = "idle";
-//                    }
-//                }
 
 
                 SaxionApp.drawImage("resources/battle/hpbar1.png", 50, 50, 470, 138);
