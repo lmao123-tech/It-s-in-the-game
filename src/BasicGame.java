@@ -117,9 +117,9 @@ public class BasicGame implements GameLoop {
                     GameManager.player2.characterDash(GameManager.player2);
                 }
 
-
                 SaxionApp.drawImage("resources/battle/hpbar1.png", 50, 50, 470, 138);
-                SaxionApp.drawImage("resources/battle/hp1-19.png", 50, 50, 470, 138);
+                GameManager.player1.drawHpBar();
+//                GameManager.player2.drawHpBar();
                 SaxionApp.drawImage("resources/battle/sp1-14.png", 50, 50, 470, 138);
                 break;
         }
@@ -349,11 +349,13 @@ public class BasicGame implements GameLoop {
                         }
                     }
 
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
                         if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("attack");
                             GameManager.player2.state = "attack";
                         }
+
+                        GameManager.playerHp();
                     }
                 }
 

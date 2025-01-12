@@ -1,6 +1,7 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -236,12 +237,17 @@ public class GameManager {
         }
 
         descent += 45;
-        if(descent >= 200) {
+        if (descent >= 200) {
             printedNumber--;
             descent = -275;
             if (printedNumber < 0) {
                 BasicGame.countdownFinished = true;
             }
         }
+    }
+
+    public void playerHp() {
+        player1.hp=player1.hp-player2.atk;
+        player1.hp = Math.max(0, player1.hp);
     }
 }

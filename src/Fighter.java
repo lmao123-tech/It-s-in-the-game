@@ -10,6 +10,7 @@ public class Fighter {
     public int def;
     public int sdef;
     public int spd;
+    public int maxHp;
 
     public String name;
     public String pic;
@@ -114,6 +115,7 @@ public class Fighter {
                 this.def = stats.getInt(5);
                 this.sdef = stats.getInt(6);
                 this.spd = stats.getInt(7);
+                this.maxHp = stats.getInt(17);
             }
         }
 

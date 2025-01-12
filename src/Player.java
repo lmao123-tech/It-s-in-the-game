@@ -11,6 +11,7 @@ public class Player {
     public int def;
     public int sdef;
     public int spd;
+    public int maxHp;
 
     public String name;
     public String pic;
@@ -131,6 +132,7 @@ public class Player {
 
     public void importStats(Fighter fighter) {
         this.hp = fighter.hp;
+        this.maxHp = fighter.maxHp;
         this.sp = fighter.sp;
         this.atk = fighter.atk;
         this.satk = fighter.satk;
@@ -173,8 +175,7 @@ public class Player {
                     state = "idle";
                 }
             }
-        }
-        else if (this.name.equalsIgnoreCase("player2")) {
+        } else if (this.name.equalsIgnoreCase("player2")) {
             System.out.print(moving);
 
             if ((moving && this.playerX > 410)) {
@@ -189,7 +190,26 @@ public class Player {
             }
         }
 
+    }
 
+    public void drawHpBar() {
+        // Ensure current HP is within valid bounds (0 to maxHp)
+        int currentHp = Math.max(0, Math.min(maxHp, hp));
+
+        // Calculate the percentage of HP remaining (use double to avoid integer division)
+        double hpPercentage = ((double) currentHp / maxHp) * 100;
+
+        // Calculate the image index based on the percentage
+        int imageIndex = (int) Math.ceil(hpPercentage / 5.0);
+
+        // Clamp the image index to the range [1, 20]
+        imageIndex = Math.max(1, Math.min(20, imageIndex));
+
+        // Construct the file path dynamically
+        String imagePath = "resources/battle/hp1-" + imageIndex + ".png";
+
+        // Draw the image
+        SaxionApp.drawImage(imagePath, 50, 50, 470, 138);
     }
 
     public int xCoordinateChange() {
