@@ -204,17 +204,23 @@ public class Player {
         int imageIndex = (int) Math.ceil(hpPercentage / 5.0);
 
         // Clamp the image index to the range [1, 20]
-        imageIndex = Math.max(0, Math.min(20, imageIndex));
+        imageIndex = Math.max(1, Math.min(20, imageIndex));
+        if (this.name.equalsIgnoreCase("player1")) {
+            // Construct the file path dynamically
+            String imagePath = "resources/battle/hp1-" + imageIndex + ".png";
 
-        // Construct the file path dynamically
-        String imagePath = "resources/battle/hp1-" + imageIndex + ".png";
-
-        // Draw the image
-        SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
+            // Draw the image
+            SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
+        }
+        if (this.name.equalsIgnoreCase("player2")) {
+            String imagePath = "resources/battle/hp2-" + imageIndex + ".png";
+            SaxionApp.drawImage(imagePath, Variables.xPositionP2, 50, 470, 138);
+        }
     }
 
     int maxSp = 50;
-    public void drawSpBar(int player){
+
+    public void drawSpBar(int player) {
         if (player == 1) {
             int currentSp = sp;
             if (currentSp > maxSp) {
