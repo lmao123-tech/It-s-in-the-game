@@ -278,6 +278,18 @@ public class GameManager {
 
     }
 
+    public int determineTurnOrder(Player player1, Player player2) {
+        int p1ModifiedSpeed = 0;
+        int p2ModifiedSpeed = 0;
+
+        while (p1ModifiedSpeed == p2ModifiedSpeed) {
+            p1ModifiedSpeed = player1.spd + SaxionApp.getRandomValueBetween(-10, 11);
+            p2ModifiedSpeed = player2.spd + SaxionApp.getRandomValueBetween(-10, 11);
+        }
+
+        return p1ModifiedSpeed > p2ModifiedSpeed ? 1 : 2;
+    }
+
     public void dashAndAttack(Player player) {
 
     }
