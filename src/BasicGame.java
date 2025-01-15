@@ -36,7 +36,6 @@ public class BasicGame implements GameLoop {
     int charFrameIndex = 0;
 
 
-
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
@@ -126,7 +125,7 @@ public class BasicGame implements GameLoop {
                 if (showHelper1) {
                     GameManager.player1.drawDescription();
                 }
-                if (showHelper2){
+                if (showHelper2) {
                     GameManager.player2.drawDescription();
                 }
                 SaxionApp.drawImage("resources/battle/hpbar1.png", Variables.xPositionP1, 50, 470, 138);
@@ -322,7 +321,11 @@ public class BasicGame implements GameLoop {
             case BATTLE:
                 if (keyboardEvent.isKeyPressed()) {
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W) {
+                        if (GameManager.player1.state.equalsIgnoreCase("attack") && GameManager.player1.animationComplete) {
+                            GameManager.calculateDmg(GameManager.player2, GameManager.player1, 1.0);
+                        }
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
+
                             // THESE 2 LINES ARE NEEDED TO PLAY AN ANIMATION
                             // YOU NEED TO SET THE ANIMATION AND THE STATE
                             GameManager.player1.setAnimation("attack");
