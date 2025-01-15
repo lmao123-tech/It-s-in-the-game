@@ -1,7 +1,6 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -24,8 +23,10 @@ public class Player {
     private int animationIndex = 0; // Current frame index
     private long lastFrameTime = 0; // Timestamp of the last frame update
     public boolean animationComplete = true;
-    boolean moving = false;
-    boolean attack1 = false;
+    boolean player1Dash;
+    boolean player2Dash;
+    boolean moveChoicePlayer2 = false;
+    boolean moveChoicePlayer1 = false;
 
     public ArrayList<String> attack = new ArrayList<>();
     public ArrayList<String> dead = new ArrayList<>();
@@ -164,29 +165,30 @@ public class Player {
 
     public void characterDash(Player player) {
         if (this.name.equalsIgnoreCase("player1")) {
-            System.out.print(moving);
+            System.out.print(player1Dash);
             System.out.println(this.playerX);
 
-            if (moving && this.playerX < 240) {
+            if (moveChoicePlayer1 && this.playerX < 240) {
                 this.playerX = this.playerX + 25;
                 this.setAnimation("run");
+                player1Dash = true;
 
 
                 if (this.playerX >= 240) {
-                    moving = false;
+                    player1Dash = false;
                     setAnimation("idle");
                     state = "idle";
 
                 }
             }
         } else if (this.name.equalsIgnoreCase("player2")) {
-
-            if ((moving && this.playerX > 410)) {
+            if ((moveChoicePlayer2 && this.playerX > 410)) {
                 this.playerX = this.playerX - 25;
                 this.setAnimation("run");
+                player2Dash = true;
 
                 if (player.playerX <= 410) {
-                    moving = false;
+                    player2Dash = false;
                     setAnimation("idle");
                     state = "idle";
                 }
@@ -201,7 +203,6 @@ public class Player {
 
         // Calculate the percentage of HP remaining (use double to avoid integer division)
         double hpPercentage = ((double) currentHp / maxHp) * 100;
-        System.out.println(hpPercentage);
 
         // Calculate the image index based on the percentage
         int imageIndex = (int) Math.ceil(hpPercentage / 5.0);
@@ -294,5 +295,10 @@ public class Player {
             dmg = (int) (dmg * ( 0.25));
         }
         return dmg;
+    }
+    public void playSelectedMove(Player player){
+        if (player.moveChoicePlayer2){
+            this.setAnimation(state);
+        }
     }
 }
