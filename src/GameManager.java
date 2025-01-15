@@ -281,6 +281,14 @@ public class GameManager {
     public void dashAndAttack(Player player) {
 
     }
+    public void victoryScreen (){
+        if (player1.hp <= 0){
+            SaxionApp.drawImage("resources/battle/Player-2-wins.png",250,300);
+        }
+        if (player2.hp <= 0){
+            SaxionApp.drawImage("resources/battle/Player-1-wins.png",250,300);
+        }
+    }
 
     public void playerSp(String typeOfAction, int player) {
         switch (typeOfAction) {
@@ -291,28 +299,28 @@ public class GameManager {
                     player2.sp += 10;
                 }
                 break;
-                case "sattack":
-                    if (player == 1) {
-                        player1.sp += 5;
-                    } else if (player == 2) {
-                        player2.sp += 5;
-                    }
-                    break;
-                case "special":
-                    if (player == 1) {
-                        player1.sp -= 10;
-                    } else if (player == 2) {
-                        player2.sp -= 10;
-                    }
-                    break;
+            case "sattack":
+                if (player == 1) {
+                    player1.sp += 5;
+                } else if (player == 2) {
+                    player2.sp += 5;
+                }
+                break;
+            case "special":
+                if (player == 1) {
+                    player1.sp -= 10;
+                } else if (player == 2) {
+                    player2.sp -= 10;
+                }
+                break;
             case "ultimate":
                 if (player == 1) {
                     player1.sp = 0;
-                }else if (player == 2) {
+                } else if (player == 2) {
                     player2.sp = 0;
                 }
                 break;
-            }
+        }
     }
 
     public boolean hpCheck(Player player1, Player player2) {
@@ -328,4 +336,6 @@ public class GameManager {
         Variables.csCursorP2X = 775;
         Variables.csCursorP2Y = 340;
     }
+
+
 }

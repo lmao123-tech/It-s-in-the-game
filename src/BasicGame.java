@@ -138,11 +138,13 @@ public class BasicGame implements GameLoop {
                 if (!countdownFinished) {
                     GameManager.drawCountdown();
                 }
+                GameManager.victoryScreen();
+
                 break;
             case GAME_OVER:
+                SaxionApp.sleep(5);
                 player1Choice = false;
                 player2Choice = false;
-
                 GameManager.resetGame();
                 state = gameState.CHARACTER_SELECT;
         }
@@ -340,6 +342,7 @@ public class BasicGame implements GameLoop {
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "special";
+                        GameManager.player1.setAnimation("special");
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
                         GameManager.player1.moveChoicePlayer1 = true;
@@ -381,6 +384,7 @@ public class BasicGame implements GameLoop {
 //                        }
 
                     }
+
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN) {
                         GameManager.player2.moveChoicePlayer2 = true;
                         GameManager.player2.state = "special";
