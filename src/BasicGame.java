@@ -342,7 +342,6 @@ public class BasicGame implements GameLoop {
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "special";
-                        GameManager.player1.setAnimation("special");
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
                         GameManager.player1.moveChoicePlayer1 = true;
