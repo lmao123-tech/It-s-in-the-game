@@ -221,20 +221,21 @@ public class Player {
         }
     }
 
-    int maxSp = 50;
-
-    public void drawSpBar(int player) {
-        if (player == 1) {
+    public void drawSpBar() {
             int currentSp = sp;
-            if (currentSp > maxSp) {
+            if (currentSp > Variables.maxSp) {
                 currentSp = 50;
             }
-            double SpPercentage = ((double) currentSp / maxSp) * 100;
+            double SpPercentage = ((double) currentSp / Variables.maxSp) * 100;
             int imageIndex = (int) Math.ceil(SpPercentage / 5.0);
             imageIndex = Math.max(0, Math.min(20, imageIndex));
-            String imagePath = "resources/battle/sp1-" + imageIndex + ".png";
-            SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
-        }
+            if (this.name.equalsIgnoreCase("player1")) {
+                String imagePath = "resources/battle/sp1-" + imageIndex + ".png";
+                SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
+            } else if (this.name.equalsIgnoreCase("player2")) {
+                String imagePath = "resources/battle/sp2-" + imageIndex + ".png";
+                SaxionApp.drawImage(imagePath, Variables.xPositionP2, 50, 470, 138);
+            }
     }
 
     public void drawDescription() {

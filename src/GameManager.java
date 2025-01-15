@@ -255,28 +255,37 @@ public class GameManager {
 
     }
 
-    public void playerSp(String increase, String typeOfAction, int player) {
-        if (increase.equalsIgnoreCase("increase")) {
-            player1.sp += 3;
-            player2.sp += 3;
-            player1.sp = Math.max(0, player1.sp);
-            player2.sp = Math.max(0, player2.sp);
-        } else if (increase.equalsIgnoreCase("decrease")) {
-            player1.sp -= 3;
-            player2.sp -= 3;
-        }
-
-        if (player == 1) {
-            switch (typeOfAction) {
-                case "attack":
-                    player1.sp += 5;
-                    break;
+    public void playerSp(String typeOfAction, int player) {
+        switch (typeOfAction) {
+            case "attack&defense":
+                if (player == 1) {
+                    player1.sp += 10;
+                } else if (player == 2) {
+                    player2.sp += 10;
+                }
+                break;
                 case "sattack":
-                    player1.sp -= 5;
+                    if (player == 1) {
+                        player1.sp += 5;
+                    } else if (player == 2) {
+                        player2.sp += 5;
+                    }
                     break;
                 case "special":
-//                player1.
+                    if (player == 1) {
+                        player1.sp -= 10;
+                    } else if (player == 2) {
+                        player2.sp -= 10;
+                    }
+                    break;
+            case "ultimate":
+                if (player == 1) {
+                    player1.sp = 0;
+                }else if (player == 2) {
+                    player2.sp = 0;
+                }
+                break;
             }
-        }
+
     }
 }

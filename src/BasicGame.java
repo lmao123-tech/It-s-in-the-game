@@ -131,8 +131,11 @@ public class BasicGame implements GameLoop {
                 }
                 SaxionApp.drawImage("resources/battle/hpbar1.png", Variables.xPositionP1, 50, 470, 138);
                 GameManager.player1.drawHpBar();
+                GameManager.player1.drawSpBar();
                 SaxionApp.drawImage("resources/battle/hpbar2.png", Variables.xPositionP2, 50, 470, 138);
                 GameManager.player2.drawHpBar();
+                GameManager.player2.drawSpBar();
+
                 break;
         }
 
@@ -324,24 +327,28 @@ public class BasicGame implements GameLoop {
                             // YOU NEED TO SET THE ANIMATION AND THE STATE
                             GameManager.player1.setAnimation("attack");
                             GameManager.player1.state = "attack";
+                            GameManager.playerSp("attack&defense", 1);
                         }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A) {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
                             GameManager.player1.setAnimation("sattack");
                             GameManager.player1.state = "sattack";
+                            GameManager.playerSp("sattack", 1);
                         }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
                             GameManager.player1.setAnimation("special");
                             GameManager.player1.state = "special";
+                            GameManager.playerSp("special", 1);
                         }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
                             GameManager.player1.setAnimation("ultimate");
                             GameManager.player1.state = "ultimate";
+                            GameManager.playerSp("ultimate", 1);
                         }
                     }
 
@@ -371,6 +378,7 @@ public class BasicGame implements GameLoop {
                         if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("attack");
                             GameManager.player2.state = "attack";
+                            GameManager.playerSp("attack&defense", 2);
                         }
 //                        GameManager.playerHp();
                     }
@@ -378,18 +386,21 @@ public class BasicGame implements GameLoop {
                         if (GameManager.player2.state.equalsIgnoreCase("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("sattack");
                             GameManager.player2.state = "sattack";
+                            GameManager.playerSp("sattack", 2);
                         }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN) {
                         if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("special");
                             GameManager.player2.state = "special";
+                            GameManager.playerSp("special", 2);
                         }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT) {
                         if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("ultimate");
                             GameManager.player2.state = "ultimate";
+                            GameManager.playerSp("ultimate", 2);
                         }
                         if (GameManager.player2.state.equals("ultimate")) {
                             GameManager.calculateDmg(GameManager.player1, GameManager.player2, 5.0);
