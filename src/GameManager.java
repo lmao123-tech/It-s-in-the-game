@@ -286,6 +286,19 @@ public class GameManager {
                 }
                 break;
             }
+    }
 
+    public boolean hpCheck(Player player1, Player player2) {
+        return (player1.hp <= 0.0) || (player2.hp <= 0.0);
+    }
+
+    public void resetGame() {
+        Variables.p1choice = 0;
+        Variables.p2choice = 1;
+
+        Variables.csCursorP1X = 625;
+        Variables.csCursorP1Y = 340;
+        Variables.csCursorP2X = 775;
+        Variables.csCursorP2Y = 340;
     }
 }

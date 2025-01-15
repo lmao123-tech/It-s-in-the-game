@@ -9,7 +9,7 @@ public class BasicGame implements GameLoop {
     boolean showHelper2 = false;
 
     public enum gameState {
-        INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
+        INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE, GAME_OVER
     }
 
     gameState state = gameState.CHARACTER_SELECT;
@@ -34,8 +34,6 @@ public class BasicGame implements GameLoop {
     // Current animation array index variables
     int bgFrameIndex = 0;
     int charFrameIndex = 0;
-
-
 
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
@@ -106,10 +104,6 @@ public class BasicGame implements GameLoop {
                 Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
-                if (!countdownFinished) {
-                    GameManager.drawCountdown();
-                }
-
                 // Draw player animations
                 GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
                 GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
@@ -123,13 +117,17 @@ public class BasicGame implements GameLoop {
                     //Play attack based on spa
                 }
 
-
                 if (showHelper1) {
                     GameManager.player1.drawDescription();
                 }
-                if (showHelper2){
+                if (showHelper2) {
                     GameManager.player2.drawDescription();
                 }
+
+                if (GameManager.hpCheck(GameManager.player1, GameManager.player2)) {
+                    state = gameState.GAME_OVER;
+                }
+
                 SaxionApp.drawImage("resources/battle/hpbar1.png", Variables.xPositionP1, 50, 470, 138);
                 GameManager.player1.drawHpBar();
                 GameManager.player1.drawSpBar();
@@ -137,7 +135,16 @@ public class BasicGame implements GameLoop {
                 GameManager.player2.drawHpBar();
                 GameManager.player2.drawSpBar();
 
+                if (!countdownFinished) {
+                    GameManager.drawCountdown();
+                }
                 break;
+            case GAME_OVER:
+                player1Choice = false;
+                player2Choice = false;
+
+                GameManager.resetGame();
+                state = gameState.CHARACTER_SELECT;
         }
 
         GameManager.jukebox(state);
@@ -351,7 +358,6 @@ public class BasicGame implements GameLoop {
                             GameManager.player2.setAnimation("run");
                             GameManager.player2.state = "run";
                             GameManager.player2.player1Dash = true;
-
                         }
                     }
 
