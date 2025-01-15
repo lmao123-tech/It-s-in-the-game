@@ -5,6 +5,8 @@ import nl.saxion.app.interaction.MouseEvent;
 
 public class BasicGame implements GameLoop {
     GameManager GameManager = new GameManager();
+    boolean showHelper1 = false;
+    boolean showHelper2 = false;
 
     public enum gameState {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE
@@ -116,7 +118,12 @@ public class BasicGame implements GameLoop {
                 if (GameManager.player2.moving) {
                     GameManager.player2.characterDash(GameManager.player2);
                 }
-
+                if (showHelper1) {
+                    GameManager.player1.drawDescription();
+                }
+                if (showHelper2){
+                    GameManager.player2.drawDescription();
+                }
                 SaxionApp.drawImage("resources/battle/hpbar1.png", 50, 50, 470, 138);
                 GameManager.player1.drawHpBar();
 //                GameManager.player2.drawHpBar();
@@ -356,6 +363,17 @@ public class BasicGame implements GameLoop {
                         }
 
                         GameManager.playerHp();
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SHIFT) {
+                        showHelper1 = true;
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_BACK_SLASH) {
+                        showHelper2 = true;
+                    }
+                } else {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SHIFT || keyboardEvent.getKeyCode() == KeyboardEvent.VK_BACK_SLASH) {
+                        showHelper1 = false;
+                        showHelper2 = false;
                     }
                 }
 

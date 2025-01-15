@@ -1,6 +1,7 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -210,6 +211,25 @@ public class Player {
 
         // Draw the image
         SaxionApp.drawImage(imagePath, 50, 50, 470, 138);
+    }
+
+    public void drawDescription() {
+        SaxionApp.turnBorderOff();
+        if (this.name.equalsIgnoreCase("player1")) {
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 20, 200);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 20, 270);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 20, 340);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 20, 410);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 20, 480);
+        }
+        if (this.name.equalsIgnoreCase("player2")) {
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 1480, 200);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 1480, 270);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 1480, 340);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 1480, 410);
+            SaxionApp.drawImage("resources/battle/desc_attack.png", 1480, 480);
+
+        }
     }
 
     public int xCoordinateChange() {
