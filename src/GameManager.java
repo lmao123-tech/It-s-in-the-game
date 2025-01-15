@@ -199,6 +199,33 @@ public class GameManager {
 
     }
 
+    public void displayBattleProfiles(Player player1, Player player2) {
+        switch (player1.maxHp) {
+            case 500:
+                SaxionApp.drawImage("resources/battle/profile_fire1.png", Variables.xPositionP1, 50, 470, 138);
+                break;
+            case 360:
+                SaxionApp.drawImage("resources/battle/profile_lightning1.png", Variables.xPositionP1, 50, 470, 138);
+                break;
+            case 410:
+                SaxionApp.drawImage("resources/battle/profile_water1.png", Variables.xPositionP1, 50, 470, 138);
+                break;
+        }
+
+        switch (player2.maxHp) {
+            case 500:
+                SaxionApp.drawImage("resources/battle/profile_fire2.png", Variables.xPositionP2, 50, 470, 138);
+                break;
+            case 360:
+                SaxionApp.drawImage("resources/battle/profile_lightning2.png", Variables.xPositionP2, 50, 470, 138);
+                break;
+            case 410:
+                SaxionApp.drawImage("resources/battle/profile_water2.png", Variables.xPositionP2, 50, 470, 138);
+
+                break;
+        }
+    }
+
     public void displayStat(int stat, int x, int y) {
         if (stat > 0) {
             int hundreds;

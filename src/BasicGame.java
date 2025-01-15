@@ -116,7 +116,6 @@ public class BasicGame implements GameLoop {
                 if (!GameManager.player1.player1Dash && !GameManager.player2.player2Dash) {
                     //Play attack based on spa
                 }
-
                 if (showHelper1) {
                     GameManager.player1.drawDescription();
                 }
@@ -134,6 +133,7 @@ public class BasicGame implements GameLoop {
                 SaxionApp.drawImage("resources/battle/hpbar2.png", Variables.xPositionP2, 50, 470, 138);
                 GameManager.player2.drawHpBar();
                 GameManager.player2.drawSpBar();
+                GameManager.displayBattleProfiles(GameManager.player1, GameManager.player2);
 
                 if (!countdownFinished) {
                     GameManager.drawCountdown();
