@@ -3,6 +3,8 @@ public class Variables {
     public static final int CS_P1Y = 200;
     public static final int CS_P2X = 1100;
     public static final int CS_P2Y = 200;
+    public static final int xPositionP1 = 100;
+    public static final int xPositionP2 = 950;
 
     // Select box variables
     public static int csCursorP1X = 625;

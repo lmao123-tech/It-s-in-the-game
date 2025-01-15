@@ -35,6 +35,8 @@ public class BasicGame implements GameLoop {
     int bgFrameIndex = 0;
     int charFrameIndex = 0;
 
+
+
     // Tracks time at which last frame played for the intro animation
     long lastBgFrameTime = 0;
     long lastCharFrameTime = 0;
@@ -125,9 +127,12 @@ public class BasicGame implements GameLoop {
                     GameManager.player2.drawDescription();
                 }
                 SaxionApp.drawImage("resources/battle/hpbar1.png", 50, 50, 470, 138);
+
+                SaxionApp.drawImage("resources/battle/hpbar1.png", Variables.xPositionP1, 50, 470, 138);
                 GameManager.player1.drawHpBar();
-//                GameManager.player2.drawHpBar();
-                SaxionApp.drawImage("resources/battle/sp1-14.png", 50, 50, 470, 138);
+                GameManager.player1.drawSpBar(1);
+                SaxionApp.drawImage("resources/battle/hpbar2.png", Variables.xPositionP2, 50, 470, 138);
+                //                GameManager.player2.drawHpBar();
                 break;
         }
 
@@ -146,8 +151,7 @@ public class BasicGame implements GameLoop {
                 GameManager.playSound("resources/sfx/shock.wav", 0.5f);
             }
         }
-
-        SaxionApp.drawImage(introBackground[bgFrameIndex], 0, 0, 1600, 672);
+        SaxionApp.drawImage(introBackground[bgFrameIndex], 0, 0,1600, 672);
     }
 
     public void showIntroAnimation(long currentTime) {
@@ -320,6 +324,7 @@ public class BasicGame implements GameLoop {
                             GameManager.player1.setAnimation("attack");
                             GameManager.player1.state = "attack";
                         }
+                        GameManager.playerSp("increase", "attack", 1);
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A) {
                         if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
