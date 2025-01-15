@@ -113,12 +113,15 @@ public class BasicGame implements GameLoop {
                 // Draw player animations
                 GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
                 GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
-
                 if (GameManager.player1.moving) {
                     GameManager.player1.characterDash(GameManager.player1);
                 }
                 if (GameManager.player2.moving) {
                     GameManager.player2.characterDash(GameManager.player2);
+                    if (!GameManager.player2.moving && GameManager.player2.attack1) {
+                        GameManager.player2.setAnimation("attack");
+                        GameManager.player2.state = "attack";
+                    }
                 }
                 if (showHelper1) {
                     GameManager.player1.drawDescription();
@@ -359,12 +362,38 @@ public class BasicGame implements GameLoop {
                     }
 
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
+                        GameManager.player2.moving = true;
+                        GameManager.player2.attack1 = true;
+
+                        if (GameManager.player2.state.equalsIgnoreCase("attack") && GameManager.player2.animationComplete) {
+                            GameManager.calculateDmg(GameManager.player1, GameManager.player2, 1.0);
+                        }
                         if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
                             GameManager.player2.setAnimation("attack");
                             GameManager.player2.state = "attack";
                         }
-
-                        GameManager.playerHp();
+//                        GameManager.playerHp();
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT) {
+                        if (GameManager.player2.state.equalsIgnoreCase("idle") || GameManager.player2.animationComplete) {
+                            GameManager.player2.setAnimation("sattack");
+                            GameManager.player2.state = "sattack";
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN) {
+                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
+                            GameManager.player2.setAnimation("special");
+                            GameManager.player2.state = "special";
+                        }
+                    }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT) {
+                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
+                            GameManager.player2.setAnimation("ultimate");
+                            GameManager.player2.state = "ultimate";
+                        }
+                        if (GameManager.player2.state.equals("ultimate")) {
+                            GameManager.calculateDmg(GameManager.player1, GameManager.player2, 5.0);
+                        }
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SHIFT) {
                         showHelper1 = true;
@@ -378,6 +407,7 @@ public class BasicGame implements GameLoop {
                         showHelper2 = false;
                     }
                 }
+
 
                 break;
 

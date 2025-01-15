@@ -30,7 +30,7 @@ public class Fighter {
     public ArrayList<String> hitR = new ArrayList<>();
     public ArrayList<String> hitL = new ArrayList<>();
 
-    public ArrayList<String> idleR = new ArrayList<>();
+    public  ArrayList<String>idleR = new ArrayList<>();
     public ArrayList<String> idleL = new ArrayList<>();
 
     public ArrayList<String> runR = new ArrayList<>();

@@ -25,6 +25,7 @@ public class Player {
     private long lastFrameTime = 0; // Timestamp of the last frame update
     public boolean animationComplete = true;
     boolean moving = false;
+    boolean attack1 = false;
 
     public ArrayList<String> attack = new ArrayList<>();
     public ArrayList<String> dead = new ArrayList<>();
@@ -170,14 +171,15 @@ public class Player {
                 this.playerX = this.playerX + 25;
                 this.setAnimation("run");
 
+
                 if (this.playerX >= 240) {
                     moving = false;
                     setAnimation("idle");
                     state = "idle";
+
                 }
             }
         } else if (this.name.equalsIgnoreCase("player2")) {
-            System.out.print(moving);
 
             if ((moving && this.playerX > 410)) {
                 this.playerX = this.playerX - 25;
@@ -199,12 +201,13 @@ public class Player {
 
         // Calculate the percentage of HP remaining (use double to avoid integer division)
         double hpPercentage = ((double) currentHp / maxHp) * 100;
+        System.out.println(hpPercentage);
 
         // Calculate the image index based on the percentage
         int imageIndex = (int) Math.ceil(hpPercentage / 5.0);
 
         // Clamp the image index to the range [1, 20]
-        imageIndex = Math.max(1, Math.min(20, imageIndex));
+        imageIndex = Math.max(0, Math.min(20, imageIndex));
 
         if (this.name.equalsIgnoreCase("player1")) {
             // Construct the file path dynamically
@@ -281,5 +284,14 @@ public class Player {
             limit = 370;
         }
         return limit;
+    }
+
+
+    public int dmgTaken(int atk, int def, boolean defending) {
+        int dmg = atk - def;
+        if (defending){
+            dmg = (int) (dmg * ( 0.25));
+        }
+        return dmg;
     }
 }

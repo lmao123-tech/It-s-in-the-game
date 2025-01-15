@@ -1,7 +1,6 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -98,6 +97,7 @@ public class GameManager {
         fire.imagePath = "resources/fire/";
         water.imagePath = "resources/water/";
         lightning.imagePath = "resources/lightning/";
+
 
         fire.name = "Fire";
         water.name = "Water";
@@ -246,9 +246,13 @@ public class GameManager {
         }
     }
 
-    public void playerHp() {
-        player1.hp=player1.hp-player2.atk;
-        player1.hp = Math.max(0, player1.hp);
+    public void calculateDmg(Player player1, Player player2, double modifier) {
+        player1.hp = player1.hp - player1.dmgTaken((int) (player2.atk * modifier), player1.def, false);
+
+    }
+
+    public void dashAndAttack(Player player) {
+
     }
 
     public void playerSp(String increase, String typeOfAction, int player) {
