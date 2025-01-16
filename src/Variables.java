@@ -18,4 +18,5 @@ public class Variables {
 
     public static final String PATH = "resources/";
     public static final String PATH_CS = "resources/charselect/";
+    public static final String PATH_BATTLE = "resources/battle/";
 }

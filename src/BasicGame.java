@@ -12,7 +12,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE, GAME_OVER
     }
 
-    gameState state = gameState.INTRO;
+    gameState state = gameState.CHARACTER_SELECT;
 
     //Random index for the map
     int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
@@ -121,11 +121,16 @@ public class BasicGame implements GameLoop {
                 if (!GameManager.player1.player1Dash && !GameManager.player2.player2Dash) {
                     //Play attack based on spa
                 }
+
                 if (showHelper1) {
                     GameManager.player1.drawDescription();
+                } else {
+                    GameManager.player1.drawIcons();
                 }
                 if (showHelper2) {
                     GameManager.player2.drawDescription();
+                } else {
+                    GameManager.player2.drawIcons();
                 }
 
                 if (GameManager.hpCheck(GameManager.player1, GameManager.player2)) {

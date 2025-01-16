@@ -1,6 +1,7 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 
 public class Player {
@@ -243,21 +244,64 @@ public class Player {
 
     int xCordP1 = 20;
     int xCordP2 = 1130;
+
+    public void drawIcons(){
+        if (this.name.equalsIgnoreCase("player1")) {
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attack.png", xCordP1, 200);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_w.png", 5, 190);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_shield.png", xCordP1, 270);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_q.png", 5, 260);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attackx2.png", xCordP1, 340);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_a.png", 5, 330);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_" + this.fighterName + "special.png", xCordP1, 410);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_s.png", 5, 400);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_" + this.fighterName + "ult.png", xCordP1, 480);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_d.png", 5, 470);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "shift.png", 5, 635);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "description.png", 75, 642);
+        }
+        if (this.name.equalsIgnoreCase("player2")) {
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attack_p2.png", 1459, 200 );
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_up.png", xCordP2 + 370, 190);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_shield.png", 1459, 270);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_0.png", xCordP2 + 370, 260);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_sattack_p2.png", 1459, 340);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_left.png", xCordP2 + 370, 330);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_" + this.fighterName + "special.png", 1459, 410);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_down.png", xCordP2 + 370, 400);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_" + this.fighterName + "ult.png", 1459, 480);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "key_right.png", xCordP2 + 370, 470);
+
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "description.png", 1310, 640);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "help_key_p2.png", 1490, 635, 35, 35);
+        }
+    }
+
+
     public void drawDescription() {
         SaxionApp.turnBorderOff();
         if (this.name.equalsIgnoreCase("player1")) {
-            SaxionApp.drawImage("resources/battle/desc_1attack.png", xCordP1, 200);
-            SaxionApp.drawImage("resources/battle/desc_1defend.png", xCordP1, 270);
-            SaxionApp.drawImage("resources/battle/desc_1sattack.png", xCordP1, 340);
-            SaxionApp.drawImage("resources/battle/desc_1special_" + this.fighterName + ".png", xCordP1, 410);
-            SaxionApp.drawImage("resources/battle/desc_1ultimate_" + this.fighterName + ".png", xCordP1, 480);
+            SaxionApp.drawImage( Variables.PATH_BATTLE + "desc_1attack.png", xCordP1, 200);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1defend.png", xCordP1, 270);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1sattack.png", xCordP1, 340);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1special_" + this.fighterName + ".png", xCordP1, 410);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1ultimate_" + this.fighterName + ".png", xCordP1, 480);
         }
         if (this.name.equalsIgnoreCase("player2")) {
-            SaxionApp.drawImage("resources/battle/desc_2attack.png", xCordP2, 200);
-            SaxionApp.drawImage("resources/battle/desc_2defend.png", xCordP2, 270);
-            SaxionApp.drawImage("resources/battle/desc_2sattack.png", xCordP2, 340);
-            SaxionApp.drawImage("resources/battle/desc_2special_" + this.fighterName + ".png", xCordP2, 410);
-            SaxionApp.drawImage("resources/battle/desc_2ultimate_" + this.fighterName + ".png", xCordP2, 480);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_2attack.png", xCordP2, 200);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_2defend.png", xCordP2, 270);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_2sattack.png", xCordP2, 340);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_2special_" + this.fighterName + ".png", xCordP2, 410);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_2ultimate_" + this.fighterName + ".png", xCordP2, 480);
 
         }
     }
