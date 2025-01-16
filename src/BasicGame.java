@@ -415,10 +415,7 @@ public class BasicGame implements GameLoop {
                         showHelper2 = false;
                     }
                 }
-
-
                 break;
-
         }
     }
 
