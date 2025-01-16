@@ -12,7 +12,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE, GAME_OVER
     }
 
-    gameState state = gameState.CHARACTER_SELECT;
+    gameState state = gameState.INTRO;
 
     //Random index for the map
     int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
@@ -20,6 +20,10 @@ public class BasicGame implements GameLoop {
     //Check if the players locked in
     boolean player1Choice = false;
     boolean player2Choice = false;
+
+    //song
+    boolean playSound = false;
+    boolean play2ndSound = false;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -77,6 +81,7 @@ public class BasicGame implements GameLoop {
 
                 break;
             case INTRO_OVER:
+                GameManager.jukebox(state);
                 // Looping for background
                 animateIntroBackground(currentTime);
                 showIntroAnimation(currentTime);
@@ -149,7 +154,7 @@ public class BasicGame implements GameLoop {
                 state = gameState.CHARACTER_SELECT;
         }
 
-        GameManager.jukebox(state);
+
 
     }
 
@@ -342,6 +347,7 @@ public class BasicGame implements GameLoop {
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "special";
+                        GameManager.player1.setAnimation("special");
                     }
                     if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
                         GameManager.player1.moveChoicePlayer1 = true;

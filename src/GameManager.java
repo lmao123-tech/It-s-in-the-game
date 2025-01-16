@@ -29,28 +29,33 @@ public class GameManager {
     MediaPlayer musicPlayer = new MediaPlayer("intro.mp3", true);
     boolean musicPlaying = false;
 
+
     public GameManager() {
         //load fighter choices;
 
     }
 
     public void jukebox(BasicGame.gameState state) {
+        int randomSong = SaxionApp.getRandomValueBetween(1, 7);
         if (!musicPlaying) {
+
             new Thread(() -> {
                 switch (state) {
                     case INTRO:
-//                        playSong("resources/m1.wav", true);
                         break;
                     case INTRO_OVER:
-                        playSong("resources/m1.wav", true);
+                        playSong("resources/m" + randomSong + ".wav", true);
                         break;
                     case CHARACTER_SELECT:
+                        break;
+                    case BATTLE:
                         break;
                 }
             }).start();
             musicPlaying = true;
         }
     }
+
 
     public void playSong(String song, boolean loop) {
         musicPlayer.stop();
@@ -293,12 +298,13 @@ public class GameManager {
     public void dashAndAttack(Player player) {
 
     }
-    public void victoryScreen (){
-        if (player1.hp <= 0){
-            SaxionApp.drawImage("resources/battle/Player-2-wins.png",250,300);
+
+    public void victoryScreen() {
+        if (player1.hp <= 0) {
+            SaxionApp.drawImage("resources/battle/Player-2-wins.png", 250, 300);
         }
-        if (player2.hp <= 0){
-            SaxionApp.drawImage("resources/battle/Player-1-wins.png",250,300);
+        if (player2.hp <= 0) {
+            SaxionApp.drawImage("resources/battle/Player-1-wins.png", 250, 300);
         }
     }
 
