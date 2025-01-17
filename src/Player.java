@@ -365,12 +365,4 @@ public class Player {
             this.setAnimation(state);
         }
     }
-    public  void sp(String increaseOrDecrease){
-        if (increaseOrDecrease.equalsIgnoreCase("increase")){
-            this.sp += 10;
-        } else if (increaseOrDecrease.equalsIgnoreCase("decrease")){
-            this.sp -= 10;
-        }
-
-    }
 }
