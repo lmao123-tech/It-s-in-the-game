@@ -427,11 +427,9 @@ public class GameManager {
     public void victoryScreen() {
         if (player1.hp <= 0) {
             SaxionApp.drawImage("resources/battle/Player-2-wins.png", 250, 300);
-            SaxionApp.drawImage(Variables.PATH_BATTLE + "chicken_p2.png", 420, 209, 250, 138);
         }
         if (player2.hp <= 0) {
             SaxionApp.drawImage("resources/battle/Player-1-wins.png", 250, 300);
-            SaxionApp.drawImage(Variables.PATH_BATTLE + "chicken_p1.png", 809, 209, 250, 138);
         }
     }
 
