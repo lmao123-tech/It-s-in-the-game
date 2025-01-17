@@ -349,6 +349,8 @@ public class GameManager {
         Variables.p1choice = 0;
         Variables.p2choice = 1;
 
+        printedNumber = 3;
+
         Variables.csCursorP1X = 625;
         Variables.csCursorP1Y = 340;
         Variables.csCursorP2X = 775;

@@ -12,7 +12,7 @@ public class BasicGame implements GameLoop {
         INTRO, INTRO_OVER, CHARACTER_SELECT, BATTLE, GAME_OVER
     }
 
-    gameState state = gameState.CHARACTER_SELECT;
+    gameState state = gameState.INTRO;
 
     //Random index for the map
     int randomMapIndex = SaxionApp.getRandomValueBetween(0, 2);
@@ -99,11 +99,17 @@ public class BasicGame implements GameLoop {
                 GameManager.displayAllStats(GameManager.player2);
                 GameManager.player1.drawCurrentAnimation(Variables.CS_P1X - 350, Variables.CS_P1Y - 186, currentTime);
                 GameManager.player2.drawCurrentAnimation(Variables.CS_P2X - 338, Variables.CS_P2Y - 186, currentTime);
-
+                if (player1Choice) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 270, 150);
+                }
+                if (player2Choice) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 1120, 150);
+                }
                 if (player1Choice && player2Choice) {
                     randomizeFighter();
                     state = gameState.BATTLE;
                 }
+
                 break;
             case BATTLE:
                 Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
@@ -112,7 +118,12 @@ public class BasicGame implements GameLoop {
                 // Draw player animations
                 GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
                 GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
-
+                if (GameManager.player1.moveChoicePlayer1) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 240, 70);
+                }
+                if (GameManager.player2.moveChoicePlayer2) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 1150, 70);
+                }
                 if (GameManager.player1.moveChoicePlayer1 && GameManager.player2.moveChoicePlayer2) {
                     GameManager.player1.characterDash(GameManager.player1);
                     GameManager.player2.characterDash(GameManager.player2);
@@ -152,13 +163,13 @@ public class BasicGame implements GameLoop {
 
                 break;
             case GAME_OVER:
-                SaxionApp.sleep(5);
+                SaxionApp.sleep(3);
                 player1Choice = false;
                 player2Choice = false;
+                countdownFinished = false;
                 GameManager.resetGame();
                 state = gameState.CHARACTER_SELECT;
         }
-
 
 
     }
@@ -349,12 +360,12 @@ public class BasicGame implements GameLoop {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "sattack";
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && GameManager.player1.sp >= 10) {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "special";
-                        GameManager.player1.setAnimation("special");
+//                        GameManager.player1.setAnimation("special");
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && GameManager.player1.sp >= 30) {
                         GameManager.player1.moveChoicePlayer1 = true;
                         GameManager.player1.state = "ultimate";
                     }
@@ -395,7 +406,7 @@ public class BasicGame implements GameLoop {
 
                     }
 
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && GameManager.player2.sp >= 10) {
                         GameManager.player2.moveChoicePlayer2 = true;
                         GameManager.player2.state = "special";
 //                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
@@ -403,7 +414,7 @@ public class BasicGame implements GameLoop {
 //                            GameManager.player2.state = "special";
 //                        }
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && GameManager.player2.sp >= 30) {
                         GameManager.player2.moveChoicePlayer2 = true;
                         GameManager.player2.state = "ultimate";
 

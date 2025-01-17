@@ -29,6 +29,7 @@ public class Player {
     boolean player2Dash;
     boolean moveChoicePlayer2 = false;
     boolean moveChoicePlayer1 = false;
+    public double attackModifier;
 
     public ArrayList<String> attack = new ArrayList<>();
     public ArrayList<String> dead = new ArrayList<>();
@@ -226,26 +227,26 @@ public class Player {
     }
 
     public void drawSpBar() {
-            int currentSp = sp;
-            if (currentSp > Variables.maxSp) {
-                currentSp = 50;
-            }
-            double SpPercentage = ((double) currentSp / Variables.maxSp) * 100;
-            int imageIndex = (int) Math.ceil(SpPercentage / 5.0);
-            imageIndex = Math.max(0, Math.min(20, imageIndex));
-            if (this.name.equalsIgnoreCase("player1")) {
-                String imagePath = "resources/battle/sp1-" + imageIndex + ".png";
-                SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
-            } else if (this.name.equalsIgnoreCase("player2")) {
-                String imagePath = "resources/battle/sp2-" + imageIndex + ".png";
-                SaxionApp.drawImage(imagePath, Variables.xPositionP2, 50, 470, 138);
-            }
+        int currentSp = sp;
+        if (currentSp > Variables.maxSp) {
+            currentSp = 50;
+        }
+        double SpPercentage = ((double) currentSp / Variables.maxSp) * 100;
+        int imageIndex = (int) Math.ceil(SpPercentage / 5.0);
+        imageIndex = Math.max(0, Math.min(20, imageIndex));
+        if (this.name.equalsIgnoreCase("player1")) {
+            String imagePath = "resources/battle/sp1-" + imageIndex + ".png";
+            SaxionApp.drawImage(imagePath, Variables.xPositionP1, 50, 470, 138);
+        } else if (this.name.equalsIgnoreCase("player2")) {
+            String imagePath = "resources/battle/sp2-" + imageIndex + ".png";
+            SaxionApp.drawImage(imagePath, Variables.xPositionP2, 50, 470, 138);
+        }
     }
 
     int xCordP1 = 20;
     int xCordP2 = 1130;
 
-    public void drawIcons(){
+    public void drawIcons() {
         if (this.name.equalsIgnoreCase("player1")) {
             SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attack.png", xCordP1, 200);
             SaxionApp.drawImage(Variables.PATH_BATTLE + "key_w.png", 5, 190);
@@ -274,7 +275,7 @@ public class Player {
             SaxionApp.drawImage(Variables.PATH_BATTLE + "description.png", 75, 642);
         }
         if (this.name.equalsIgnoreCase("player2")) {
-            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attack_p2.png", 1459, 200 );
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_attack_p2.png", 1459, 200);
             SaxionApp.drawImage(Variables.PATH_BATTLE + "key_up.png", xCordP2 + 370, 190);
 
             SaxionApp.drawImage(Variables.PATH_BATTLE + "icon_shield.png", 1459, 270);
@@ -306,7 +307,7 @@ public class Player {
     public void drawDescription() {
         SaxionApp.turnBorderOff();
         if (this.name.equalsIgnoreCase("player1")) {
-            SaxionApp.drawImage( Variables.PATH_BATTLE + "desc_1attack.png", xCordP1, 200);
+            SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1attack.png", xCordP1, 200);
             SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1defend.png", xCordP1, 270);
             SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1sattack.png", xCordP1, 340);
             SaxionApp.drawImage(Variables.PATH_BATTLE + "desc_1special_" + this.fighterName + ".png", xCordP1, 410);
@@ -355,14 +356,21 @@ public class Player {
 
     public int dmgTaken(int atk, int def, boolean defending) {
         int dmg = atk - def;
-        if (defending){
-            dmg = (int) (dmg * ( 0.25));
+        if (defending) {
+            dmg = (int) (dmg * (0.25));
         }
         return dmg;
     }
-    public void playSelectedMove(Player player){
-        if (player.moveChoicePlayer2){
+
+    public void playSelectedMove(Player player) {
+        if (player.moveChoicePlayer2) {
             this.setAnimation(state);
         }
     }
+
+    public double attackModifier() {
+        return this.attackModifier = (this.sp - 30.0) / 5 + 3.0;
+
+    }
+
 }
