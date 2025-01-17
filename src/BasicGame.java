@@ -3,6 +3,8 @@ import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
 
+import java.util.Objects;
+
 public class BasicGame implements GameLoop {
     GameManager GameManager = new GameManager();
     boolean showHelper1 = false;
@@ -20,10 +22,6 @@ public class BasicGame implements GameLoop {
     //Check if the players locked in
     boolean player1Choice = false;
     boolean player2Choice = false;
-
-    //song
-    boolean playSound = false;
-    boolean play2ndSound = false;
 
     //Variables for intro text
     boolean isTitleShown = false;
@@ -82,6 +80,7 @@ public class BasicGame implements GameLoop {
                 break;
             case INTRO_OVER:
                 GameManager.jukebox(state);
+                
                 // Looping for background
                 animateIntroBackground(currentTime);
                 showIntroAnimation(currentTime);
@@ -99,6 +98,7 @@ public class BasicGame implements GameLoop {
                 GameManager.displayAllStats(GameManager.player2);
                 GameManager.player1.drawCurrentAnimation(Variables.CS_P1X - 350, Variables.CS_P1Y - 186, currentTime);
                 GameManager.player2.drawCurrentAnimation(Variables.CS_P2X - 338, Variables.CS_P2Y - 186, currentTime);
+
                 if (player1Choice) {
                     SaxionApp.drawImage("resources/charselect/ready.png", 270, 150);
                 }
@@ -109,28 +109,39 @@ public class BasicGame implements GameLoop {
                     randomizeFighter();
                     state = gameState.BATTLE;
                 }
-
                 break;
             case BATTLE:
                 Map[] maps = new Map[]{GameManager.player1.map, GameManager.player2.map};
                 maps[randomMapIndex].animateMap();
 
                 // Draw player animations
-                GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
-                GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
-                if (GameManager.player1.moveChoicePlayer1) {
-                    SaxionApp.drawImage("resources/charselect/ready.png", 240, 70);
-                }
-                if (GameManager.player2.moveChoicePlayer2) {
-                    SaxionApp.drawImage("resources/charselect/ready.png", 1150, 70);
-                }
-                if (GameManager.player1.moveChoicePlayer1 && GameManager.player2.moveChoicePlayer2) {
-                    GameManager.player1.characterDash(GameManager.player1);
-                    GameManager.player2.characterDash(GameManager.player2);
+                if (GameManager.actingPlayer.equals("player 1")) {
+                    GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
+                    GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
+                } else {
+                    GameManager.player1.drawCurrentAnimation(GameManager.player1.playerX, GameManager.player1.playerY, currentTime);
+                    GameManager.player2.drawCurrentAnimation(GameManager.player2.playerX, GameManager.player2.playerY, currentTime);
                 }
 
-                if (!GameManager.player1.player1Dash && !GameManager.player2.player2Dash) {
-                    //Play attack based on spa
+                if (GameManager.player1.moveChoice) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 240, 70);
+                }
+                if (GameManager.player2.moveChoice) {
+                    SaxionApp.drawImage("resources/charselect/ready.png", 1150, 70);
+                }
+
+
+                if (GameManager.player1.moveChoice && GameManager.player2.moveChoice) {
+                    GameManager.inRound = true;
+                    GameManager.player1.characterDash();
+                    GameManager.player2.characterDash();
+                    GameManager.playRound();
+                }
+
+                if (GameManager.player1.isStunned) {
+                    GameManager.player1.playStunnedAnimation();
+                } else if (GameManager.player2.isStunned) {
+                    GameManager.player2.playStunnedAnimation();
                 }
 
                 if (showHelper1) {
@@ -138,6 +149,7 @@ public class BasicGame implements GameLoop {
                 } else {
                     GameManager.player1.drawIcons();
                 }
+
                 if (showHelper2) {
                     GameManager.player2.drawDescription();
                 } else {
@@ -163,7 +175,7 @@ public class BasicGame implements GameLoop {
 
                 break;
             case GAME_OVER:
-                SaxionApp.sleep(3);
+                SaxionApp.sleep(5);
                 player1Choice = false;
                 player2Choice = false;
                 countdownFinished = false;
@@ -351,84 +363,74 @@ public class BasicGame implements GameLoop {
                 }
                 break;
             case BATTLE:
-                if (keyboardEvent.isKeyPressed()) {
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W) {
-                        GameManager.player1.moveChoicePlayer1 = true;
-                        GameManager.player1.state = "attack";
+                if (keyboardEvent.isKeyPressed() && countdownFinished) {
+                    // Player 1 Keys
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_W && !GameManager.inRound) {
+                        GameManager.player1.moveChoice = true;
+                        GameManager.player1.playerAction = "attack";
+                        GameManager.player1.attackModifier = 1.0;
+                        GameManager.player1.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A) {
-                        GameManager.player1.moveChoicePlayer1 = true;
-                        GameManager.player1.state = "sattack";
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_A && !GameManager.inRound) {
+                        GameManager.player1.moveChoice = true;
+                        GameManager.player1.playerAction = "sattack";
+                        GameManager.player1.attackModifier = 1.5;
+                        GameManager.player1.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && GameManager.player1.sp >= 10) {
-                        GameManager.player1.moveChoicePlayer1 = true;
-                        GameManager.player1.state = "special";
-//                        GameManager.player1.setAnimation("special");
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_S && !GameManager.inRound && GameManager.player1.sp >= 10) {
+                        GameManager.player1.moveChoice = true;
+                        GameManager.player1.playerAction = "special";
+                        GameManager.player1.attackModifier = 2.0;
+                        GameManager.player1.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && GameManager.player1.sp >= 30) {
-                        GameManager.player1.moveChoicePlayer1 = true;
-                        GameManager.player1.state = "ultimate";
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_D && !GameManager.inRound && GameManager.player1.sp >= 30) {
+                        GameManager.player1.moveChoice = true;
+                        GameManager.player1.playerAction = "ultimate";
+                        GameManager.player1.attackModifier = 3.0;
+                        GameManager.player1.acting = true;
                     }
-
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_0) {
-                        if (GameManager.player1.state.equals("idle") || GameManager.player1.animationComplete) {
-                            GameManager.player1.setAnimation("run");
-                            GameManager.player1.state = "run";
-                            GameManager.player1.player1Dash = true;
-                        }
-                    }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_P) {
-                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
-                            GameManager.player2.setAnimation("run");
-                            GameManager.player2.state = "run";
-                            GameManager.player2.player1Dash = true;
-                        }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_Q && !GameManager.inRound) {
+                        GameManager.player1.moveChoice = true;
+                        GameManager.player1.playerAction = "defend";
+                        GameManager.player1.acting = true;
                     }
 
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && keyboardEvent.isKeyPressed()) {
-                        GameManager.player2.moveChoicePlayer2 = true;
-                        GameManager.player2.state = "attack";
-
-//                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
-//                            GameManager.player2.setAnimation("attack");
-//                            GameManager.player2.state = "attack";
-//                        }
-//                        GameManager.playerHp();
+                    // Player 2 Keys
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_UP && !GameManager.inRound) {
+                        GameManager.player2.moveChoice = true;
+                        GameManager.player2.playerAction = "attack";
+                        GameManager.player2.attackModifier = 1.0;
+                        GameManager.player2.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT) {
-                        GameManager.player2.moveChoicePlayer2 = true;
-                        GameManager.player2.state = "sattack";
-
-//                        if (GameManager.player2.state.equalsIgnoreCase("idle") || GameManager.player2.animationComplete) {
-//                            GameManager.player2.setAnimation("sattack");
-//                            GameManager.player2.state = "sattack";
-//                        }
-
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_LEFT && !GameManager.inRound) {
+                        GameManager.player2.moveChoice = true;
+                        GameManager.player2.playerAction = "sattack";
+                        GameManager.player2.attackModifier = 1.5;
+                        GameManager.player2.acting = true;
                     }
 
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && GameManager.player2.sp >= 10) {
-                        GameManager.player2.moveChoicePlayer2 = true;
-                        GameManager.player2.state = "special";
-//                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
-//                            GameManager.player2.setAnimation("special");
-//                            GameManager.player2.state = "special";
-//                        }
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_DOWN && !GameManager.inRound && GameManager.player2.sp >= 10) {
+                        GameManager.player2.moveChoice = true;
+                        GameManager.player2.playerAction = "special";
+                        GameManager.player2.attackModifier = 2.0;
+                        GameManager.player2.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && GameManager.player2.sp >= 30) {
-                        GameManager.player2.moveChoicePlayer2 = true;
-                        GameManager.player2.state = "ultimate";
-
-
-//                        if (GameManager.player2.state.equals("idle") || GameManager.player2.animationComplete) {
-//                            GameManager.player2.setAnimation("ultimate");
-//                            GameManager.player2.state = "ultimate";
-//                        }
-
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_RIGHT && !GameManager.inRound && GameManager.player2.sp >= 30) {
+                        GameManager.player2.moveChoice = true;
+                        GameManager.player2.playerAction = "ultimate";
+                        GameManager.player2.attackModifier = 3.0;
+                        GameManager.player2.acting = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SHIFT) {
+                    if ((keyboardEvent.getKeyCode() == KeyboardEvent.VK_0 || keyboardEvent.getKeyCode() == KeyboardEvent.VK_NUMPAD0) && !GameManager.inRound) {
+                        GameManager.player2.moveChoice = true;
+                        GameManager.player2.playerAction = "defend";
+                        GameManager.player2.acting = true;
+                    }
+
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_SHIFT && !GameManager.inRound) {
                         showHelper1 = true;
                     }
-                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_BACK_SLASH) {
+                    if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_BACK_SLASH && !GameManager.inRound) {
                         showHelper2 = true;
                     }
                 } else {
@@ -437,7 +439,10 @@ public class BasicGame implements GameLoop {
                         showHelper2 = false;
                     }
                 }
+
+
                 break;
+
         }
     }
 
@@ -446,3 +451,4 @@ public class BasicGame implements GameLoop {
 
     }
 }
+

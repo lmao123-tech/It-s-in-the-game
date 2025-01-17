@@ -36,6 +36,9 @@ public class Fighter {
     public ArrayList<String> runR = new ArrayList<>();
     public ArrayList<String> runL = new ArrayList<>();
 
+    public ArrayList<String> runbackR = new ArrayList<>();
+    public ArrayList<String> runbackL = new ArrayList<>();
+
     public ArrayList<String> sattackR = new ArrayList<>();
     public ArrayList<String> sattackL = new ArrayList<>();
 
@@ -68,6 +71,7 @@ public class Fighter {
                 createAnimationArrayR(this.hitR, stats.getInt(11), this.imagePath, "hit");
                 createAnimationArrayR(this.idleR, stats.getInt(12), this.imagePath, "idle");
                 createAnimationArrayR(this.runR, stats.getInt(13), this.imagePath, "run");
+                createAnimationArrayR(this.runbackL, stats.getInt(13), this.imagePath, "runback");
                 createAnimationArrayR(this.sattackR, stats.getInt(14), this.imagePath, "sattack");
                 createAnimationArrayR(this.specialR, stats.getInt(15), this.imagePath, "special");
                 createAnimationArrayR(this.ultimateR, stats.getInt(16), this.imagePath, "ultimate");
@@ -78,6 +82,7 @@ public class Fighter {
                 createAnimationArrayL(this.hitL, stats.getInt(11), this.imagePath, "hit");
                 createAnimationArrayL(this.idleL, stats.getInt(12), this.imagePath, "idle");
                 createAnimationArrayL(this.runL, stats.getInt(13), this.imagePath, "run");
+                createAnimationArrayL(this.runbackR, stats.getInt(13), this.imagePath, "runback");
                 createAnimationArrayL(this.sattackL, stats.getInt(14), this.imagePath, "sattack");
                 createAnimationArrayL(this.specialL, stats.getInt(15), this.imagePath, "special");
                 createAnimationArrayL(this.ultimateL, stats.getInt(16), this.imagePath, "ultimate");

@@ -29,6 +29,9 @@ public class GameManager {
     MediaPlayer musicPlayer = new MediaPlayer("intro.mp3", true);
     boolean musicPlaying = false;
 
+    boolean damageCalculated = true;
+    public String actingPlayer = "";
+    boolean inRound = false;
 
     public GameManager() {
         //load fighter choices;
@@ -38,10 +41,10 @@ public class GameManager {
     public void jukebox(BasicGame.gameState state) {
         int randomSong = SaxionApp.getRandomValueBetween(1, 7);
         if (!musicPlaying) {
-
             new Thread(() -> {
                 switch (state) {
                     case INTRO:
+//                        playSong("resources/m1.wav", true);
                         break;
                     case INTRO_OVER:
                         playSong("resources/m" + randomSong + ".wav", true);
@@ -55,7 +58,6 @@ public class GameManager {
             musicPlaying = true;
         }
     }
-
 
     public void playSong(String song, boolean loop) {
         musicPlayer.stop();
@@ -278,25 +280,148 @@ public class GameManager {
         }
     }
 
-    public void calculateDmg(Player player1, Player player2, double modifier) {
-        player1.hp = player1.hp - player1.dmgTaken((int) (player2.atk * modifier), player1.def, false);
+    public void takeDamage(Player defendingPlayer, Player attackingPlayer, double modifier) {
+        defendingPlayer.hp = defendingPlayer.hp - defendingPlayer.dmgTaken((int) (attackingPlayer.atk * modifier), defendingPlayer.def, false);
 
     }
 
     public int determineTurnOrder(Player player1, Player player2) {
-        int p1ModifiedSpeed = 0;
-        int p2ModifiedSpeed = 0;
+        do {
+            player1.modifiedSpeed = player1.spd + SaxionApp.getRandomValueBetween(-10, 11);
+            player2.modifiedSpeed = player2.spd + SaxionApp.getRandomValueBetween(-10, 11);
+        } while (player1.modifiedSpeed == player2.modifiedSpeed);
 
-        while (p1ModifiedSpeed == p2ModifiedSpeed) {
-            p1ModifiedSpeed = player1.spd + SaxionApp.getRandomValueBetween(-10, 11);
-            p2ModifiedSpeed = player2.spd + SaxionApp.getRandomValueBetween(-10, 11);
+        if (player1.playerAction.equals("attack") && player2.playerAction.equals("defend")) {
+            return 1;
+        } else if (player1.playerAction.equals("defend") && player2.playerAction.equals("attack")) {
+            return 2;
+        } else if (player1.playerAction.equals("defend")) {
+            return 1;
+        } else if (player2.playerAction.equals("defend")) {
+            return 2;
         }
 
-        return p1ModifiedSpeed > p2ModifiedSpeed ? 1 : 2;
+        return player1.modifiedSpeed > player2.modifiedSpeed ? 1 : 2;
     }
 
-    public void dashAndAttack(Player player) {
+    public boolean checkIfStunned(int firstPlayerSpeed, int secondPlayerSpeed) {
+        double speedDifferential = 1.2 * (firstPlayerSpeed - secondPlayerSpeed);
 
+        return SaxionApp.getRandomValueBetween(0, 101) <= speedDifferential;
+    }
+
+    public void playRound() {
+            new Thread(() -> {
+                player1.moveChoice = false;
+                player2.moveChoice = false;
+
+                SaxionApp.sleep(1);
+
+                int turnOrder = determineTurnOrder(player1, player2);
+                double delay = 0.1;
+
+                player1.currentAnimationArray = player1.setCurrentAnimationFrames(player1.playerAction);
+                player2.currentAnimationArray = player2.setCurrentAnimationFrames(player2.playerAction);
+
+                if (player1.playerAction.equals("defend") && player2.playerAction.equals("defend")) {
+                    player1.setAnimation(player1.playerAction);
+                    player1.state = player1.playerAction;
+                    player1.updateSp(player1.playerAction);
+
+
+                    player2.setAnimation(player2.playerAction);
+                    player2.state = player2.playerAction;
+                    player2.updateSp(player2.playerAction);
+
+                    SaxionApp.sleep(1);
+                } else {
+                    if (turnOrder == 1) {
+                        actingPlayer = "player 1";
+                        player1.setAnimation(player1.playerAction);
+                        player1.state = player1.playerAction;
+                        player1.updateSp(player1.playerAction);
+
+                        if (!player1.playerAction.equals("defend")) {
+                            player2.playHitAnimation();
+                        }
+
+                        checkIfStunned(player1.modifiedSpeed, player2.modifiedSpeed);
+
+                        SaxionApp.sleep(delay * player1.currentAnimationArray.size());
+                        takeDamage(player2, player1, player1.attackModifier);
+
+
+                        if (player2.playerAction.equals("defend") && !player1.playerAction.equals("defend")) {
+                            player2.isStunned = true;
+                            SaxionApp.sleep(2.5);
+
+                        } else if (!checkIfStunned(player1.modifiedSpeed, player2.modifiedSpeed)) {
+                            actingPlayer = "player 2";
+                            player2.setAnimation(player2.playerAction);
+                            player2.state = player2.playerAction;
+                            player2.updateSp(player2.playerAction);
+
+                            player1.playHitAnimation();
+
+                            SaxionApp.sleep(delay * player2.currentAnimationArray.size());
+                            takeDamage(player1, player2, player2.attackModifier);
+
+                        } else {
+                            player2.isStunned = true;
+                            SaxionApp.sleep(2.5);
+
+                        }
+
+                    } else {
+                        actingPlayer = "player 2";
+                        player2.setAnimation(player2.playerAction);
+                        player2.state = player2.playerAction;
+                        player2.updateSp(player2.playerAction);
+
+
+                        if (!player2.playerAction.equals("defend")) {
+                            player1.playHitAnimation();
+                        }
+                        checkIfStunned(player2.modifiedSpeed, player1.modifiedSpeed);
+
+
+                        SaxionApp.sleep(delay * player2.currentAnimationArray.size());
+                        takeDamage(player1, player2, player2.attackModifier);
+
+
+                        if (player1.playerAction.equals("defend") && !player2.playerAction.equals("defend")) {
+                            player1.isStunned = true;
+                            SaxionApp.sleep(2.5);
+
+                        } else if (!checkIfStunned(player2.modifiedSpeed, player1.modifiedSpeed)) {
+                            actingPlayer = "player 1";
+                            player1.setAnimation(player1.playerAction);
+                            player1.state = player1.playerAction;
+                            player1.updateSp(player1.playerAction);
+
+                            player2.playHitAnimation();
+
+                            SaxionApp.sleep(delay * player1.currentAnimationArray.size());
+                            takeDamage(player2, player1, player1.attackModifier);
+
+                        } else {
+                            player1.isStunned = true;
+                            SaxionApp.sleep(2.5);
+
+                        }
+
+                    }
+                }
+
+                player1.characterDashBack();
+                player2.characterDashBack();
+
+                SaxionApp.sleep(1);
+
+
+                inRound = false;
+
+            }).start();
     }
 
     public void victoryScreen() {
@@ -308,38 +433,7 @@ public class GameManager {
         }
     }
 
-    public void playerSp(String typeOfAction, int player) {
-        switch (typeOfAction) {
-            case "attack&defense":
-                if (player == 1) {
-                    player1.sp += 10;
-                } else if (player == 2) {
-                    player2.sp += 10;
-                }
-                break;
-            case "sattack":
-                if (player == 1) {
-                    player1.sp += 5;
-                } else if (player == 2) {
-                    player2.sp += 5;
-                }
-                break;
-            case "special":
-                if (player == 1) {
-                    player1.sp -= 10;
-                } else if (player == 2) {
-                    player2.sp -= 10;
-                }
-                break;
-            case "ultimate":
-                if (player == 1) {
-                    player1.sp = 0;
-                } else if (player == 2) {
-                    player2.sp = 0;
-                }
-                break;
-        }
-    }
+
 
     public boolean hpCheck(Player player1, Player player2) {
         return (player1.hp <= 0.0) || (player2.hp <= 0.0);

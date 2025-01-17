@@ -19,11 +19,12 @@ public class Map {
     public void animateMap() {
 
         SaxionApp.drawImage(this.frames.get(index), 0, 0, 1600, 672);
-        SaxionApp.sleep(0.02);
+//        SaxionApp.sleep(0.02);
         index++;
         if (index >= this.frames.size()) {
             index = 0;
         }
 
     }
+
 }

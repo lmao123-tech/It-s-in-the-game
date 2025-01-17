@@ -1,5 +1,5 @@
 ﻿fighter,hp,sp,atk,satk,def,sdef,spd,framesAttack,framesDead,framesDefend,framesHit,framesIdle,framesRun,framesSattack,framesSpecial,framesUltimate,maxHp
-fire,500,30,65,80,35,70,50,11,13,10,6,8,8,19,28,17,500
-water,410,40,60,75,25,60,55,7,16,12,7,8,8,21,27,32,410
-lightning,360,50,75,100,25,30,65,8,20,7,6,10,13,10,19,20,360
+fire,500,0,65,80,35,70,50,12,13,10,6,8,8,20,29,18,500
+water,410,0,60,75,25,60,55,8,16,12,7,8,8,22,28,33,410
+lightning,360,0,75,100,25,30,65,9,20,7,6,10,13,11,20,21,360
 random,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

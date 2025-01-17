@@ -1,7 +1,7 @@
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.audio.MediaPlayer;
 
-import java.time.temporal.ValueRange;
+// import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 
 public class Player {
@@ -13,6 +13,7 @@ public class Player {
     public int sdef;
     public int spd;
     public int maxHp;
+    public double attackModifier;
 
     public String fighterName;
     public String name;
@@ -25,11 +26,14 @@ public class Player {
     private int animationIndex = 0; // Current frame index
     private long lastFrameTime = 0; // Timestamp of the last frame update
     public boolean animationComplete = true;
-    boolean player1Dash;
-    boolean player2Dash;
-    boolean moveChoicePlayer2 = false;
-    boolean moveChoicePlayer1 = false;
-    public double attackModifier;
+    boolean player1Dash = false;
+    boolean player2Dash = false;
+    boolean moveChoice;
+    boolean acting = false;
+    String playerAction = "";
+    public int modifiedSpeed = 0;
+    public int stunnedIndex = 0;
+    public boolean isStunned = false;
 
     public ArrayList<String> attack = new ArrayList<>();
     public ArrayList<String> dead = new ArrayList<>();
@@ -37,9 +41,11 @@ public class Player {
     public ArrayList<String> hit = new ArrayList<>();
     public ArrayList<String> idle = new ArrayList<>();
     public ArrayList<String> run = new ArrayList<>();
+    public ArrayList<String> runback = new ArrayList<>();
     public ArrayList<String> sattack = new ArrayList<>();
     public ArrayList<String> special = new ArrayList<>();
     public ArrayList<String> ultimate = new ArrayList<>();
+    public ArrayList<String> currentAnimationArray;
 
     // Set the animation state and reset the frame index
     public void setAnimation(String animationName) {
@@ -54,23 +60,41 @@ public class Player {
     // Get the frame delay for each animation in milliseconds
     private long getFrameDelay(String animationName) {
         return switch (animationName) {
-            case "attack" -> 47;
+            case "attack" -> 40;
             case "dead", "idle" -> 70;
-            case "run" -> 1;
+            case "run", "runback" -> 1;
             default -> 50;
         };
     }
 
     // Get the current animation frames
-    private ArrayList<String> getCurrentAnimationFrames() {
+    public ArrayList<String> getCurrentAnimationFrames() {
         return switch (currentAnimation) {
             case "attack" -> attack;
             case "dead" -> dead;
+            case "defend" -> defend;
             case "hit" -> hit;
             case "sattack" -> sattack;
             case "special" -> special;
             case "ultimate" -> ultimate;
             case "run" -> run;
+            case "runback" -> runback;
+            // Add cases for other animations as needed
+            default -> idle;
+        };
+    }
+
+    public ArrayList<String> setCurrentAnimationFrames(String playerAction) {
+        return switch (playerAction) {
+            case "attack" -> attack;
+            case "dead" -> dead;
+            case "defend" -> defend;
+            case "hit" -> hit;
+            case "sattack" -> sattack;
+            case "special" -> special;
+            case "ultimate" -> ultimate;
+            case "run" -> run;
+            case "runback" -> runback;
             // Add cases for other animations as needed
             default -> idle;
         };
@@ -97,6 +121,52 @@ public class Player {
         if (animationIndex >= 0 && animationIndex < frames.size()) {
             SaxionApp.drawImage(frames.get(animationIndex), x, y);
         }
+
+        if (animationIndex == frames.size() - 1) {
+            animationComplete = true;
+        }
+
+
+    }
+
+    public void updateSp(String typeOfAction) {
+        switch (typeOfAction) {
+            case "attack" , "defend":
+                this.sp += 10;
+                break;
+            case "sattack":
+                this.sp += 5;
+                break;
+            case "special":
+                this.sp -= 10;
+                break;
+            case "ultimate":
+                this.sp = 0;
+        }
+    }
+
+    public void playStunnedAnimation() {
+
+        SaxionApp.drawImage("resources/battle/stunned" + stunnedIndex + ".png", this.playerX + 350, this.playerY + 200, 159, 88);
+//        SaxionApp.sleep(0.02);
+        stunnedIndex++;
+        if (stunnedIndex >= 32) {
+            this.isStunned = false;
+            stunnedIndex = 0;
+        }
+
+//           for (int i = 0; i < 32; i++) {
+//               SaxionApp.drawImage("resources/battle/stunned" + i + ".png", this.playerX, this.playerY, 200, 200);
+//               SaxionApp.sleep(0.4);
+//           }
+    }
+
+    public void playHitAnimation() {
+        new Thread(() -> {
+            SaxionApp.sleep(0.1);
+            this.setAnimation("hit");
+            this.state = "hit";
+        }).start();
     }
 
     public void updatePlayer(Fighter fighter) {
@@ -120,6 +190,7 @@ public class Player {
         this.hit = fighter.hitR;
         this.idle = fighter.idleR;
         this.run = fighter.runR;
+        this.runback = fighter.runbackR;
         this.sattack = fighter.sattackR;
         this.special = fighter.specialR;
         this.ultimate = fighter.ultimateR;
@@ -132,6 +203,7 @@ public class Player {
         this.hit = fighter.hitL;
         this.idle = fighter.idleL;
         this.run = fighter.runL;
+        this.runback = fighter.runbackL;
         this.sattack = fighter.sattackL;
         this.special = fighter.specialL;
         this.ultimate = fighter.ultimateL;
@@ -150,7 +222,7 @@ public class Player {
 
     public void setBattleCoords() {
         if (this.name.equalsIgnoreCase("player1")) {
-            this.playerX = -70;
+            this.playerX = -50;
         } else {
             this.playerX = 750;
         }
@@ -167,38 +239,80 @@ public class Player {
         this.lastFrameTime = 0;
     }
 
-    public void characterDash(Player player) {
-        if (this.name.equalsIgnoreCase("player1")) {
-            System.out.print(player1Dash);
-            System.out.println(this.playerX);
+    public void characterDash() {
+        new Thread(() -> {
+            if (this.name.equalsIgnoreCase("player1")) {
 
-            if (moveChoicePlayer1 && this.playerX < 240) {
-                this.playerX = this.playerX + 25;
-                this.setAnimation("run");
-                player1Dash = true;
+                if (this.moveChoice && this.playerX <= 200) {
+                    while (this.playerX <= 200) {
+                        this.playerX = this.playerX + 50;
+                        this.setAnimation("run");
+                        player1Dash = true;
+                        SaxionApp.sleep(0.060);
+                    }
 
 
-                if (this.playerX >= 240) {
-                    player1Dash = false;
-                    setAnimation("idle");
-                    state = "idle";
+                        player1Dash = false;
+                        state = "idle";
 
                 }
-            }
-        } else if (this.name.equalsIgnoreCase("player2")) {
-            if ((moveChoicePlayer2 && this.playerX > 410)) {
-                this.playerX = this.playerX - 25;
-                this.setAnimation("run");
-                player2Dash = true;
+            } else if (this.name.equalsIgnoreCase("player2")) {
 
-                if (player.playerX <= 410) {
+                if (this.moveChoice && this.playerX >= 450) {
+                    while (this.playerX >= 450) {
+                        this.playerX = this.playerX - 50;
+                        this.setAnimation("run");
+                        player2Dash = true;
+                        SaxionApp.sleep(0.060);
+                    }
+
+
                     player2Dash = false;
-                    setAnimation("idle");
+                    state = "idle";
+
+                }
+
+            }
+        }).start();
+
+
+
+    }
+
+    public void characterDashBack() {
+        new Thread(() -> {
+            if (this.name.equalsIgnoreCase("player1")) {
+
+                if (!this.moveChoice && this.playerX >= 200) {
+                    while (this.playerX >= -50) {
+                        this.playerX = this.playerX - 50;
+                        this.setAnimation("runback");
+                        player1Dash = true;
+                        SaxionApp.sleep(0.060);
+                    }
+
+
+                    player1Dash = false;
                     state = "idle";
                 }
-            }
-        }
+            } else if (this.name.equalsIgnoreCase("player2")) {
 
+                if (!this.moveChoice && this.playerX <= 450) {
+                    while (this.playerX <= 750) {
+                        this.playerX = this.playerX + 50;
+                        this.setAnimation("runback");
+                        player2Dash = true;
+                        SaxionApp.sleep(0.060);
+                    }
+
+
+                    player2Dash = false;
+                    state = "idle";
+
+                }
+
+            }
+        }).start();
     }
 
     public void drawHpBar() {
@@ -362,11 +476,11 @@ public class Player {
         return dmg;
     }
 
-    public void playSelectedMove(Player player) {
-        if (player.moveChoicePlayer2) {
-            this.setAnimation(state);
-        }
-    }
+//    public void playSelectedMove(Player player) {
+//        if (player.moveChoicePlayer2) {
+//            this.setAnimation(state);
+//        }
+//    }
 
     public double attackModifier() {
         return this.attackModifier = (this.sp - 30.0) / 5 + 3.0;
