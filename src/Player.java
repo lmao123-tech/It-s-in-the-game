@@ -131,8 +131,12 @@ public class Player {
 
     public void updateSp(String typeOfAction) {
         switch (typeOfAction) {
-            case "attack" , "defend":
+            case "attack":
                 this.sp += 10;
+                break;
+            case "defend":
+                this.sp += 10;
+                this.hp += (int)(this.maxHp * 0.05);
                 break;
             case "sattack":
                 this.sp += 5;
@@ -142,6 +146,10 @@ public class Player {
                 break;
             case "ultimate":
                 this.sp = 0;
+        }
+
+        if (this.hp > this.maxHp) {
+            this.hp = this.maxHp;
         }
     }
 

@@ -80,7 +80,7 @@ public class BasicGame implements GameLoop {
                 break;
             case INTRO_OVER:
                 GameManager.jukebox(state);
-                
+
                 // Looping for background
                 animateIntroBackground(currentTime);
                 showIntroAnimation(currentTime);
@@ -158,6 +158,16 @@ public class BasicGame implements GameLoop {
 
                 if (GameManager.hpCheck(GameManager.player1, GameManager.player2)) {
                     state = gameState.GAME_OVER;
+                }
+
+                if (GameManager.player1.hp <= 0) {
+                    GameManager.player1.state = "dead";
+                    GameManager.player1.setAnimation("dead");
+                }
+
+                if (GameManager.player2.hp <= 0) {
+                    GameManager.player2.state = "dead";
+                    GameManager.player2.setAnimation("dead");
                 }
 
                 SaxionApp.drawImage("resources/battle/hpbar1.png", Variables.xPositionP1, 50, 470, 138);
